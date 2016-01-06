@@ -30,6 +30,7 @@ void main(string[] args){
         ClearDrawScreen();
         DrawFormatString(0, 0, 0xffffff, "DXライブラリ on D言語".toUTF16z);
         DrawFormatString(0, 20, 0xffffff, "tick = %d".toUTF16z, tick++);
+        DrawFormatString(0, 40, 0xffffff, "DxLib Ver = %s".toUTF16z, DXLIB_VERSION_STR.ptr);
         ScreenFlip();
     }
 

@@ -90,8 +90,8 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x315e;
-enum DXLIB_VERSION_STR = "3.15e"w;
+enum DXLIB_VERSION = 0x3160;
+enum DXLIB_VERSION_STR = "3.16 "w;
 
 
 
@@ -1532,6 +1532,7 @@ struct tagSTREAMDATASHREDTYPE2
 	int						 function( DWORD_PTR Handle )IdleCheck ;
 	int						 function( const(TCHAR)*Path )ChDir ;
 	int						 function( TCHAR *Buffer )GetDir ;
+	int						 function( TCHAR *Buffer, size_t BufferSize )GetDirS ;
 	DWORD_PTR				 function( const(TCHAR)*FilePath, FILEINFO *Buffer )FindFirst ;
 	int						 function( DWORD_PTR FindHandle, FILEINFO *Buffer )FindNext ;
 	int						 function( DWORD_PTR FindHandle )FindClose ;
@@ -1549,6 +1550,7 @@ struct tagSTREAMDATASHREDTYPE2W
 	int						 function( DWORD_PTR Handle )IdleCheck ;
 	int						 function( const(wchar)*Path )ChDir ;
 	int						 function( wchar *Buffer )GetDir ;
+	int						 function( wchar *Buffer, size_t BufferSize )GetDirS ;
 	DWORD_PTR				 function( const(wchar)*FilePath, FILEINFOW *Buffer )FindFirst ;
 	int						 function( DWORD_PTR FindHandle, FILEINFOW *Buffer )FindNext ;
 	int						 function( DWORD_PTR FindHandle )FindClose ;
@@ -1730,6 +1732,13 @@ struct tagIPDATA_IPv6
 
 
 
+
+
+
+
+
+
+
 int				GetResourceInfo(		const(TCHAR)*ResourceName , const(TCHAR)*ResourceType , void **DataPointerP , int *DataSizeP ) ;
 const(TCHAR)*	GetResourceIDString(	int ResourceID ) ;
 
@@ -1897,7 +1906,7 @@ int			SetKeyExclusiveCooperativeLevelFlag(	int Flag ) ;
 int			SetKeyboardNotDirectInputFlag(			int Flag ) ;
 int			SetUseDirectInputFlag(					int Flag ) ;
 int			SetUseXInputFlag(						int Flag ) ;
-int			GetJoypadGUID(							int PadIndex, GUID *GuidBuffer ) ;
+int			GetJoypadGUID(							int PadIndex, GUID *GuidInstanceBuffer, GUID *GuidProductBuffer = NULL ) ;
 int			GetJoypadName(							int InputType, TCHAR *InstanceNameBuffer, TCHAR *ProductNameBuffer ) ;
 int			ConvertKeyCodeToVirtualKey(				int KeyCode ) ;
 int			ConvertVirtualKeyToKeyCode(				int VirtualKey ) ;
@@ -2051,6 +2060,19 @@ const(void)*	GetDSoundObj() ;	/* 戻り値を IDirectSound * にキャストし�
 
 
 int			LoadMusicMemByResource(				const(TCHAR)*ResourceName, const(TCHAR)*ResourceType ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2243,46 +2265,59 @@ int				ConvertStringCharCodeFormat( int SrcCharCodeFormat /* DX_CHARCODEFORMAT_S
 int				SetUseCharCodeFormat( int CharCodeFormat /* DX_CHARCODEFORMAT_SHIFTJIS 等 */ ) ;
 
 
-void			strcpyDx(     TCHAR *Dest, const(TCHAR)*Src ) ;
-void			strpcpyDx(    TCHAR *Dest, const(TCHAR)*Src, int Pos ) ;
-void			strpcpy2Dx(   TCHAR *Dest, const(TCHAR)*Src, int Pos ) ;
-void			strncpyDx(    TCHAR *Dest, const(TCHAR)*Src, int Num ) ;
-void			strncpy2Dx(   TCHAR *Dest, const(TCHAR)*Src, int Num ) ;
-void			strrncpyDx(   TCHAR *Dest, const(TCHAR)*Src, int Num ) ;
-void			strrncpy2Dx(  TCHAR *Dest, const(TCHAR)*Src, int Num ) ;
-void			strpncpyDx(   TCHAR *Dest, const(TCHAR)*Src, int Pos, int Num ) ;
-void			strpncpy2Dx(  TCHAR *Dest, const(TCHAR)*Src, int Pos, int Num ) ;
-void			strcatDx(     TCHAR *Dest, const(TCHAR)*Src ) ;
-int				strlenDx(     const(TCHAR)*Str ) ;
-int				strlen2Dx(    const(TCHAR)*Str ) ;
-int				strcmpDx(     const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-int				stricmpDx(    const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-int				strncmpDx(    const(TCHAR)*Str1, const(TCHAR)*Str2, int Num ) ;
-int				strncmp2Dx(   const(TCHAR)*Str1, const(TCHAR)*Str2, int Num ) ;
-int				strpncmpDx(   const(TCHAR)*Str1, const(TCHAR)*Str2, int Pos, int Num ) ;
-int				strpncmp2Dx(  const(TCHAR)*Str1, const(TCHAR)*Str2, int Pos, int Num ) ;
-DWORD			strgetchrDx(  const(TCHAR)*Str, int Pos, int *CharNums = NULL ) ;
-DWORD			strgetchr2Dx( const(TCHAR)*Str, int Pos, int *CharNums = NULL ) ;
-int				strputchrDx(  TCHAR *Str, int Pos, DWORD CharCode ) ;
-int				strputchr2Dx( TCHAR *Str, int Pos, DWORD CharCode ) ;
-const(TCHAR)*	strposDx(     const(TCHAR)*Str, int Pos ) ;
-const(TCHAR)*	strpos2Dx(    const(TCHAR)*Str, int Pos ) ;
-const(TCHAR)*	strstrDx(     const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-int				strstr2Dx(    const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-const(TCHAR)*	strrstrDx(    const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-int				strrstr2Dx(   const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
-const(TCHAR)*	strchrDx(     const(TCHAR)*Str, DWORD CharCode ) ;
-int				strchr2Dx(    const(TCHAR)*Str, DWORD CharCode ) ;
-const(TCHAR)*	strrchrDx(    const(TCHAR)*Str, DWORD CharCode ) ;
-int				strrchr2Dx(   const(TCHAR)*Str, DWORD CharCode ) ;
-TCHAR *			struprDx(     TCHAR *Str ) ;
-int				vsprintfDx(   TCHAR *Buffer, const(TCHAR)*FormatString, va_list Arg ) ;
-int				sprintfDx(    TCHAR *Buffer, const(TCHAR)*FormatString, ... ) ;
-TCHAR *			itoaDx(       int Value, TCHAR *Buffer, int Radix ) ;
-int				atoiDx(       const(TCHAR)*Str ) ;
-double			atofDx(       const(TCHAR)*Str ) ;
-int				vsscanfDx(    const(TCHAR)*String, const(TCHAR)*FormatString, va_list Arg ) ;
-int				sscanfDx(     const(TCHAR)*String, const(TCHAR)*FormatString, ... ) ;
+void			strcpyDx(      TCHAR *Dest,                   const(TCHAR)*Src ) ;
+void			strcpy_sDx(    TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src ) ;
+void			strpcpyDx(     TCHAR *Dest,                   const(TCHAR)*Src, int Pos ) ;
+void			strpcpy_sDx(   TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Pos ) ;
+void			strpcpy2Dx(    TCHAR *Dest,                   const(TCHAR)*Src, int Pos ) ;
+void			strpcpy2_sDx(  TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Pos ) ;
+void			strncpyDx(     TCHAR *Dest,                   const(TCHAR)*Src, int Num ) ;
+void			strncpy_sDx(   TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Num ) ;
+void			strncpy2Dx(    TCHAR *Dest,                   const(TCHAR)*Src, int Num ) ;
+void			strncpy2_sDx(  TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Num ) ;
+void			strrncpyDx(    TCHAR *Dest,                   const(TCHAR)*Src, int Num ) ;
+void			strrncpy_sDx(  TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Num ) ;
+void			strrncpy2Dx(   TCHAR *Dest,                   const(TCHAR)*Src, int Num ) ;
+void			strrncpy2_sDx( TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Num ) ;
+void			strpncpyDx(    TCHAR *Dest,                   const(TCHAR)*Src, int Pos, int Num ) ;
+void			strpncpy_sDx(  TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Pos, int Num ) ;
+void			strpncpy2Dx(   TCHAR *Dest,                   const(TCHAR)*Src, int Pos, int Num ) ;
+void			strpncpy2_sDx( TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src, int Pos, int Num ) ;
+void			strcatDx(      TCHAR *Dest,                   const(TCHAR)*Src ) ;
+void			strcat_sDx(    TCHAR *Dest, size_t DestBytes, const(TCHAR)*Src ) ;
+int				strlenDx(      const(TCHAR)*Str ) ;
+int				strlen2Dx(     const(TCHAR)*Str ) ;
+int				strcmpDx(      const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+int				stricmpDx(     const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+int				strncmpDx(     const(TCHAR)*Str1, const(TCHAR)*Str2, int Num ) ;
+int				strncmp2Dx(    const(TCHAR)*Str1, const(TCHAR)*Str2, int Num ) ;
+int				strpncmpDx(    const(TCHAR)*Str1, const(TCHAR)*Str2, int Pos, int Num ) ;
+int				strpncmp2Dx(   const(TCHAR)*Str1, const(TCHAR)*Str2, int Pos, int Num ) ;
+DWORD			strgetchrDx(   const(TCHAR)*Str, int Pos, int *CharNums = NULL ) ;
+DWORD			strgetchr2Dx(  const(TCHAR)*Str, int Pos, int *CharNums = NULL ) ;
+int				strputchrDx(   TCHAR *Str, int Pos, DWORD CharCode ) ;
+int				strputchr2Dx(  TCHAR *Str, int Pos, DWORD CharCode ) ;
+const(TCHAR)*	strposDx(      const(TCHAR)*Str, int Pos ) ;
+const(TCHAR)*	strpos2Dx(     const(TCHAR)*Str, int Pos ) ;
+const(TCHAR)*	strstrDx(      const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+int				strstr2Dx(     const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+const(TCHAR)*	strrstrDx(     const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+int				strrstr2Dx(    const(TCHAR)*Str1, const(TCHAR)*Str2 ) ;
+const(TCHAR)*	strchrDx(      const(TCHAR)*Str, DWORD CharCode ) ;
+int				strchr2Dx(     const(TCHAR)*Str, DWORD CharCode ) ;
+const(TCHAR)*	strrchrDx(     const(TCHAR)*Str, DWORD CharCode ) ;
+int				strrchr2Dx(    const(TCHAR)*Str, DWORD CharCode ) ;
+TCHAR *			struprDx(      TCHAR *Str ) ;
+int				vsprintfDx(    TCHAR *Buffer,                    const(TCHAR)*FormatString, va_list Arg ) ;
+int				vsnprintfDx(   TCHAR *Buffer, size_t BufferSize, const(TCHAR)*FormatString, va_list Arg ) ;
+int				sprintfDx(     TCHAR *Buffer,                    const(TCHAR)*FormatString, ... ) ;
+int				snprintfDx(    TCHAR *Buffer, size_t BufferSize, const(TCHAR)*FormatString, ... ) ;
+TCHAR *			itoaDx(        int Value, TCHAR *Buffer,                     int Radix ) ;
+TCHAR *			itoa_sDx(      int Value, TCHAR *Buffer, size_t BufferBytes, int Radix ) ;
+int				atoiDx(        const(TCHAR)*Str ) ;
+double			atofDx(        const(TCHAR)*Str ) ;
+int				vsscanfDx(     const(TCHAR)*String, const(TCHAR)*FormatString, va_list Arg ) ;
+int				sscanfDx(      const(TCHAR)*String, const(TCHAR)*FormatString, ... ) ;
 
 
 
