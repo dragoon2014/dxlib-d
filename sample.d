@@ -17,6 +17,10 @@ pragma(lib, "ogg_static_x64");
 pragma(lib, "vorbis_static_x64");
 pragma(lib, "vorbisfile_static_x64");
 pragma(lib, "zlib_x64");
+pragma(lib, "opus_x64");
+pragma(lib, "opusfile_x64");
+pragma(lib, "silk_common_x64");
+pragma(lib, "celt_x64");
 
 void main(string[] args){
     SetOutApplicationLogValidFlag(false);
@@ -30,7 +34,7 @@ void main(string[] args){
         ClearDrawScreen();
         DrawFormatString(0, 0, 0xffffff, "DXライブラリ on D言語".toUTF16z);
         DrawFormatString(0, 20, 0xffffff, "tick = %d".toUTF16z, tick++);
-        DrawFormatString(0, 40, 0xffffff, "DxLib Ver = %s".toUTF16z, DXLIB_VERSION_STR.ptr);
+        DrawFormatString(0, 40, 0xffffff, "DxLib Ver = %s".toUTF16z, DXLIB_VERSION_STR_W.ptr);
         ScreenFlip();
     }
 
