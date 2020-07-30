@@ -25,7 +25,12 @@ for ((i=0; i<${#hdrs[@]}; i++)){
     fi
 
     ([[ $isUtf8 -eq 1 ]] && cat $src || iconv -f cp932 -t utf-8 $src) \
+        | tr -d '\r' \
         | sed -f replace_simply.sed \
         | bash convert_typedef.sh >> $dst
 }
 
+sed -i -z 's@}\n*extern[^\n]*\n{@//__!_injection_DxFunctionWin__\n@' dxlib.d
+sed -i -z -e 's/[^{]*{//' -e 's/}[^}]*//' dxfunctionwin.d
+sed -i -e '/__!_injection_DxFunctionWin__/rdxfunctionwin.d' -e '/__!_injection_DxFunctionWin__/d' dxlib.d
+rm dxfunctionwin.d

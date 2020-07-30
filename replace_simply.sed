@@ -68,3 +68,7 @@ s/const[ \t]\([a-zA-Z_][a-zA-Z_0-9]*\)[ \t]*\*/const(\1)*/g
 # remove NEAR and FAR
 s/,*[^a-zA-Z_0-9]NEAR[ \t]*[^,;]*//g
 s/,*[^a-zA-Z_0-9]FAR[ \t]*[^,;]*//g
+
+# array C to D style (up to 2 dimention)
+s/\([ \t]*[a-zA-Z_][a-zA-Z_0-9]*\)[ \t]*\([a-zA-Z_][a-zA-Z_0-9]*\)\(\[[^\]]*\]\)\(\[[^\]]*\]\)[ \t]*;/\1\4\3 \2;/g
+s/\([ \t]*[a-zA-Z_][a-zA-Z_0-9]*\)[ \t]*\([a-zA-Z_][a-zA-Z_0-9]*\)\(\[.*\]\)[ \t]*;/\1\3 \2;/g

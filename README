@@ -27,7 +27,7 @@ dxlib-d利用手順
             LDCやGDCでの動作は未確認です
 
         VisualC++
-            リンカが必要です
+            ライブラリファイルが必要です
 
         本家DXライブラリ本体
             ライブラリファイルが必要です
@@ -74,9 +74,6 @@ dxlib-d自体の作成手順
             PortableGit2.6.4で動作確認をしています
 
     変換方法
-        残念ながら完全自動化はできていません。
-        手動でソースをいじる必要があります。
-
         1. dxlib-dとDXライブラリをダウンロードして展開
             DxLib.hとDxFunctionWin.hをdxlib-d.shのある場所に移動します。
 
@@ -87,25 +84,8 @@ dxlib-d自体の作成手順
             を実行して変換を待ちます。
             dxlib.dとdxfunctionwin.dが生成されます。
 
-        3. dxfunctionwin.dから
-            ---
-            extern(C++, DxLib){
-            ...
-            }
-            ---
-            の中身をコピー
-            dxlib.dの二つ目のextern(1700行目あたり)
-            ---
-            }
-            ...
-            extern(C++, DxLib){
-            ---
-            に上書き貼り付け
-
-            現在(D2.069.2)のところnamespace付きexternを複数定義すると
-            conflictが発生してしまうので消す必要があります。
 
 
 著作権表記
-    dxlib.dには自動及び手動変換されたDXライブラリのコードが含まれています。
-    DX Library Copyright (C) 2001-2016 Takumi Yamada.
+    dxlib.dには自動変換されたDXライブラリのコードが含まれています。
+    DX Library Copyright (C) 2001-2019 Takumi Yamada.

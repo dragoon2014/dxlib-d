@@ -14,8 +14,9 @@ alias ulong ULONGLONG, UINT_PTR;
 
 alias DWORD* DWORD_PTR;
 
-alias wchar TCHAR;
+alias char TCHAR;
 T _T(T)(T s){ return s; }
+T ULL_PARAM(T)(T n){ return n; }
 
 alias void* HANDLE;
 alias HANDLE HWND;
