@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x321f;
-enum DXLIB_VERSION_STR_T = _T( "3.21f" );
-enum DXLIB_VERSION_STR_W = "3.21f"w;
+enum DXLIB_VERSION = 0x322a;
+enum DXLIB_VERSION_STR_T = _T( "3.22a" );
+enum DXLIB_VERSION_STR_W = "3.22a"w;
 
 
 
@@ -120,11 +120,8 @@ enum DX_TWO_PI_F = (3.1415926535897932384626433832795f * 2.0f);
 alias DX_CHAR = char;
 
 
-enum MAX_IMAGE_NUM = (32768);
-enum MAX_2DSURFACE_NUM = (32768);
-enum MAX_3DSURFACE_NUM = (65536);
+enum MAX_IMAGE_NUM = (0x40000);
 enum MAX_IMAGE_DIVNUM = (64);
-enum MAX_SURFACE_NUM = (65536);
 enum MAX_SHADOWMAP_NUM = (8192);
 enum MAX_SOFTIMAGE_NUM = (8192);
 
@@ -323,22 +320,24 @@ enum DX_GRAPH_FILTER_INVERT = (6);
 enum DX_GRAPH_FILTER_LEVEL = (7);
 enum DX_GRAPH_FILTER_TWO_COLOR = (8);
 enum DX_GRAPH_FILTER_GRADIENT_MAP = (9);
-enum DX_GRAPH_FILTER_PREMUL_ALPHA = (10);
-enum DX_GRAPH_FILTER_INTERP_ALPHA = (11);
-enum DX_GRAPH_FILTER_YUV_TO_RGB = (12);
-enum DX_GRAPH_FILTER_Y2UV1_TO_RGB = (13);
-enum DX_GRAPH_FILTER_YUV_TO_RGB_RRA = (14);
-enum DX_GRAPH_FILTER_Y2UV1_TO_RGB_RRA = (15);
-enum DX_GRAPH_FILTER_BICUBIC_SCALE = (16);
-enum DX_GRAPH_FILTER_LANCZOS3_SCALE = (17);
-enum DX_GRAPH_FILTER_PMA_BRIGHT_CLIP = (18);
-enum DX_GRAPH_FILTER_PMA_BRIGHT_SCALE = (19);
-enum DX_GRAPH_FILTER_PMA_HSB = (20);
-enum DX_GRAPH_FILTER_PMA_INVERT = (21);
-enum DX_GRAPH_FILTER_PMA_LEVEL = (22);
-enum DX_GRAPH_FILTER_PMA_TWO_COLOR = (23);
-enum DX_GRAPH_FILTER_PMA_GRADIENT_MAP = (24);
-enum DX_GRAPH_FILTER_NUM = (25);
+enum DX_GRAPH_FILTER_REPLACEMENT = (10);
+enum DX_GRAPH_FILTER_PREMUL_ALPHA = (11);
+enum DX_GRAPH_FILTER_INTERP_ALPHA = (12);
+enum DX_GRAPH_FILTER_YUV_TO_RGB = (13);
+enum DX_GRAPH_FILTER_Y2UV1_TO_RGB = (14);
+enum DX_GRAPH_FILTER_YUV_TO_RGB_RRA = (15);
+enum DX_GRAPH_FILTER_Y2UV1_TO_RGB_RRA = (16);
+enum DX_GRAPH_FILTER_BICUBIC_SCALE = (17);
+enum DX_GRAPH_FILTER_LANCZOS3_SCALE = (18);
+enum DX_GRAPH_FILTER_PMA_BRIGHT_CLIP = (19);
+enum DX_GRAPH_FILTER_PMA_BRIGHT_SCALE = (20);
+enum DX_GRAPH_FILTER_PMA_HSB = (21);
+enum DX_GRAPH_FILTER_PMA_INVERT = (22);
+enum DX_GRAPH_FILTER_PMA_LEVEL = (23);
+enum DX_GRAPH_FILTER_PMA_TWO_COLOR = (24);
+enum DX_GRAPH_FILTER_PMA_GRADIENT_MAP = (25);
+enum DX_GRAPH_FILTER_PMA_REPLACEMENT = (26);
+enum DX_GRAPH_FILTER_NUM = (27);
 
 
 enum DX_GRAPH_BLEND_NORMAL = (0);
@@ -386,6 +385,14 @@ enum DX_RGBA_SELECT_BLEND_R = (4);
 enum DX_RGBA_SELECT_BLEND_G = (5);
 enum DX_RGBA_SELECT_BLEND_B = (6);
 enum DX_RGBA_SELECT_BLEND_A = (7);
+enum DX_RGBA_SELECT_SRC_INV_R = (8);
+enum DX_RGBA_SELECT_SRC_INV_G = (9);
+enum DX_RGBA_SELECT_SRC_INV_B = (10);
+enum DX_RGBA_SELECT_SRC_INV_A = (11);
+enum DX_RGBA_SELECT_BLEND_INV_R = (12);
+enum DX_RGBA_SELECT_BLEND_INV_G = (13);
+enum DX_RGBA_SELECT_BLEND_INV_B = (14);
+enum DX_RGBA_SELECT_BLEND_INV_A = (15);
 
 
 enum DX_FILL_WIREFRAME = (2);
@@ -1905,6 +1912,7 @@ int			GetWindowSize(					int *Width, int *Height ) ;
 int			GetWindowEdgeWidth(				int *LeftWidth, int *RightWidth, int *TopWidth, int *BottomWidth ) ;
 int			GetWindowPosition(				int *x, int *y ) ;
 int			GetWindowUserCloseFlag(			int StateResetFlag = FALSE ) ;
+int			CheckWindowMaximizeButtonInput(	int StateResetFlag = TRUE ) ;
 int			GetNotDrawFlag() ;
 int			GetPaintMessageFlag() ;
 int			GetValidHiPerformanceCounter() ;
@@ -1937,6 +1945,7 @@ int			SetWindowMinSize(						int MinWidth, int MinHeight ) ;
 int			SetWindowPosition(						int x, int y ) ;
 int			SetSysCommandOffFlag(					int Flag , const(TCHAR)*HookDllPath = NULL                                ) ;
 int			SetSysCommandOffFlagWithStrLen(			int Flag , const(TCHAR)*HookDllPath = NULL , size_t HookDllPathLength = 0 ) ;
+int			SetWindowMaximizeButtonBehavior(		int BehaviorType ) ;
 int			SetHookWinProc(							WNDPROC WinProc ) ;
 int			SetUseHookWinProcReturnValue(			int UseFlag ) ;
 int			SetDoubleStartValidFlag(				int Flag ) ;
@@ -2158,6 +2167,7 @@ int			SetUseDirect3D11WARPDriver(						int Flag ) ;
 int			SetUseDirect3DVersion(							int Version /* DX_DIRECT3D_9 など */ ) ;
 int			GetUseDirect3DVersion() ;
 int			GetUseDirect3D11FeatureLevel() ;
+int			SetUseDirect3D11AdapterIndex(					int Index ) ;
 int			SetUseDirectDrawFlag(							int Flag ) ;
 int			SetUseGDIFlag(									int Flag ) ;
 int			GetUseGDIFlag() ;
@@ -3590,9 +3600,12 @@ int			UpdateShaderConstantBuffer(		int SConstBufHandle ) ;
 int			SetShaderConstantBuffer(		int SConstBufHandle, int TargetShader /* DX_SHADERTYPE_VERTEX など */ , int Slot ) ;
 
 
+int			SetGraphFilterBltBlendMode( int BlendMode /* DX_BLENDMODE_ALPHA など */ ) ;
+
 int			GraphFilter(         int    GrHandle,                                                                                                               int FilterType /* DX_GRAPH_FILTER_GAUSS 等 */ , ... ) ;
 int			GraphFilterBlt(      int SrcGrHandle, int DestGrHandle,                                                                                             int FilterType /* DX_GRAPH_FILTER_GAUSS 等 */ , ... ) ;
 int			GraphFilterRectBlt(  int SrcGrHandle, int DestGrHandle, int SrcX1, int SrcY1, int SrcX2, int SrcY2, int DestX,  int DestY,                          int FilterType /* DX_GRAPH_FILTER_GAUSS 等 */ , ... ) ;
+
 
 
 
@@ -5073,6 +5086,10 @@ int			SetNextPlay3DVelocitySoundMem(       VECTOR Velocity,                     
 
 int			GetMP3TagInfo(           const(TCHAR)*FileName,                        TCHAR *TitleBuffer, size_t TitleBufferBytes, TCHAR *ArtistBuffer, size_t ArtistBufferBytes, TCHAR *AlbumBuffer, size_t AlbumBufferBytes, TCHAR *YearBuffer, size_t YearBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes, TCHAR *TrackBuffer, size_t TrackBufferBytes, TCHAR *GenreBuffer, size_t GenreBufferBytes, int *PictureGrHandle ) ;
 int			GetMP3TagInfoWithStrLen( const(TCHAR)*FileName, size_t FileNameLength, TCHAR *TitleBuffer, size_t TitleBufferBytes, TCHAR *ArtistBuffer, size_t ArtistBufferBytes, TCHAR *AlbumBuffer, size_t AlbumBufferBytes, TCHAR *YearBuffer, size_t YearBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes, TCHAR *TrackBuffer, size_t TrackBufferBytes, TCHAR *GenreBuffer, size_t GenreBufferBytes, int *PictureGrHandle ) ;
+int			GetOggCommentNum(           const(TCHAR)*FileName                        ) ;
+int			GetOggCommentNumWithStrLen( const(TCHAR)*FileName, size_t FileNameLength ) ;
+int			GetOggComment(              const(TCHAR)*FileName,                        int CommentIndex, TCHAR *CommentNameBuffer, size_t CommentNameBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes ) ;
+int			GetOggCommentWithStrLen(    const(TCHAR)*FileName, size_t FileNameLength, int CommentIndex, TCHAR *CommentNameBuffer, size_t CommentNameBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes ) ;
 						
 
 
@@ -5427,6 +5444,8 @@ int			MV1SetMaterialSpcPower( 			int MHandle, int MaterialIndex, float Power ) ;
 float		MV1GetMaterialSpcPower( 			int MHandle, int MaterialIndex ) ;
 int			MV1SetMaterialDifMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
 int			MV1GetMaterialDifMapTexture(		int MHandle, int MaterialIndex ) ;
+int			MV1SetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
+int			MV1GetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex ) ;
 int			MV1SetMaterialSpcMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
 int			MV1GetMaterialSpcMapTexture(		int MHandle, int MaterialIndex ) ;
 int			MV1GetMaterialNormalMapTexture(		int MHandle, int MaterialIndex ) ;
