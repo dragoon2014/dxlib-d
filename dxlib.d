@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x322a;
-enum DXLIB_VERSION_STR_T = _T( "3.22a" );
-enum DXLIB_VERSION_STR_W = "3.22a"w;
+enum DXLIB_VERSION = 0x322c;
+enum DXLIB_VERSION_STR_T = _T( "3.22c" );
+enum DXLIB_VERSION_STR_W = "3.22c"w;
 
 
 
