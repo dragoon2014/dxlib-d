@@ -1,6 +1,8 @@
 
 # remove // comment and just before whitespace
 s#\([^ \t]*\)[ \t]*//.*#\1#g
+# DEFAULTPARAM (require 3.22e+)
+s/DEFAULTPARAM(\([^)]*\))/\1/g
 # define to enum
 s/\#define[ \t]\+\([a-zA-Z_][a-zA-Z_0-9]*\)[ \t]\+\(.*\)/enum \1 = \2;/g
 # type define to alias(TODO)
@@ -22,6 +24,8 @@ s#\}[ \t;]\+$#}#g
 s#\}\(.\+\)#}//!end_brace_after_string: \1#g
 s#\}//\([ \t]*else\)#}\1#g
 
+# extern "C" (require 3.22e+)
+s/extern[ \t]\+"C"/version(all)/g
 # extern (TODO: cooperation with namespace)
 s/extern[ \t]\+//g
 # namespace
