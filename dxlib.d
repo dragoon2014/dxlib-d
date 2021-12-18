@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x322e;
-enum DXLIB_VERSION_STR_T = _T( "3.22e" );
-enum DXLIB_VERSION_STR_W = "3.22e"w;
+enum DXLIB_VERSION = 0x3230;
+enum DXLIB_VERSION_STR_T = _T( "3.23 " );
+enum DXLIB_VERSION_STR_W = "3.23 "w;
 
 
 
@@ -178,6 +178,7 @@ enum DX_WINDOWSVERSION_7 = (0x109);
 enum DX_WINDOWSVERSION_8 = (0x10A);
 enum DX_WINDOWSVERSION_8_1 = (0x10B);
 enum DX_WINDOWSVERSION_10 = (0x10C);
+enum DX_WINDOWSVERSION_11 = (0x10D);
 enum DX_WINDOWSVERSION_NT_TYPE = (0x100);
 
 
@@ -1921,6 +1922,7 @@ int			GetMouseDispFlag() ;
 int			GetAlwaysRunFlag() ;
 int			_GetSystemInfo(					int *DxLibVer , int *DirectXVer , int *WindowsVer ) ;
 int			GetPcInfo(						TCHAR *OSString , TCHAR *DirectXString , TCHAR *CPUString , int *CPUSpeed /* 単位MHz */ , double *FreeMemorySize /* 単位MByte */ , double *TotalMemorySize , TCHAR *VideoDriverFileName , TCHAR *VideoDriverString , double *FreeVideoMemorySize /* 単位MByte */ , double *TotalVideoMemorySize ) ;
+int			GetWindowOSVersion() ;
 int			GetUseMMXFlag() ;
 int			GetUseSSEFlag() ;
 int			GetUseSSE2Flag() ;
@@ -1984,6 +1986,7 @@ int			SetDialogBoxHandle(						HWND WindowHandle ) ;
 int			SetWindowVisibleFlag(					int Flag ) ;
 int			SetWindowMinimizeFlag(					int Flag ) ;
 int			SetWindowUserCloseEnableFlag(			int Flag ) ;
+int			SetUseBorderlessWindowFlag(				int Flag ) ;
 int			SetDxLibEndPostQuitMessageFlag(			int Flag ) ;
 int			SetUserWindow(							HWND WindowHandle ) ;
 int			SetUserChildWindow(						HWND WindowHandle ) ;
@@ -2393,6 +2396,13 @@ int			GetDateTime(							DATEDATA *DateBuf ) ;
 
 int			GetRand( int RandMax ) ;
 int			SRand(	 int Seed ) ;
+
+
+DWORD_PTR	CreateRandHandle( int Seed  = -1  ) ;
+int			DeleteRandHandle( DWORD_PTR RandHandle ) ;
+int			SRandHandle( DWORD_PTR RandHandle, int Seed ) ;
+int			GetRandHandle( DWORD_PTR RandHandle, int RandMax ) ;
+
 
 
 int			GetBatteryLifePercent() ;
@@ -3359,6 +3369,7 @@ int			SetWriteAlphaChannelFlag(			int Flag ) ;
 int			GetWriteAlphaChannelFlag() ;
 int			CheckSeparateAlphaBlendEnable() ;
 int			SetIgnoreDrawGraphColor(			int EnableFlag ) ;
+int			GetIgnoreDrawGraphColor() ;
 int			SetMaxAnisotropy(					int MaxAnisotropy ) ;
 int			GetMaxAnisotropy() ;
 int			SetUseLarge3DPositionSupport(		int UseFlag ) ;
@@ -4829,14 +4840,17 @@ int			CreateBaseImageToFileWithStrLen( const(TCHAR)*FileName, size_t FileNameLen
 int			CreateBaseImageToMem(                                                          const(void)*FileImage, int FileImageSize,                                         BASEIMAGE *BaseImage,  int ReverseFlag  = FALSE  ) ;
 int			CreateARGBF32ColorBaseImage(     int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateARGBF16ColorBaseImage(     int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
-int			CreateARGB8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateXRGB8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
-int			CreateRGB8ColorBaseImage(        int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
+int			CreateARGB8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
+int			CreateRGBA8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
+int			CreateABGR8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
+int			CreateBGRA8ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateARGB4ColorBaseImage(       int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateA1R5G5B5ColorBaseImage(    int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateX1R5G5B5ColorBaseImage(    int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateR5G5B5A1ColorBaseImage(    int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreateR5G6B5ColorBaseImage(      int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
+int			CreateRGB8ColorBaseImage(        int SizeX, int SizeY,                             BASEIMAGE *BaseImage ) ;
 int			CreatePAL8ColorBaseImage(        int SizeX, int SizeY,                             BASEIMAGE *BaseImage, int UseAlpha  = FALSE  ) ;
 int			CreateColorDataBaseImage(        int SizeX, int SizeY, const(COLORDATA)*ColorData, BASEIMAGE *BaseImage ) ;
 int			GetBaseImageGraphDataSize(       const(BASEIMAGE)*BaseImage ) ;
@@ -4916,6 +4930,9 @@ int				CreateARGBF32ColorData(  COLORDATA *ColorDataBuf ) ;
 int				CreateARGBF16ColorData(  COLORDATA *ColorDataBuf ) ;
 int				CreateXRGB8ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateARGB8ColorData(    COLORDATA *ColorDataBuf ) ;
+int				CreateRGBA8ColorData(    COLORDATA *ColorDataBuf ) ;
+int				CreateABGR8ColorData(    COLORDATA *ColorDataBuf ) ;
+int				CreateBGRA8ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateARGB4ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateA1R5G5B5ColorData( COLORDATA *ColorDataBuf ) ;
 int				CreateX1R5G5B5ColorData( COLORDATA *ColorDataBuf ) ;
@@ -4956,8 +4973,11 @@ int			LoadXRGB8ColorSoftImageToMem(         const(void)*FileImage, int FileImage
 int			MakeSoftImage(                        int SizeX, int SizeY ) ;
 int			MakeARGBF32ColorSoftImage(            int SizeX, int SizeY ) ;
 int			MakeARGBF16ColorSoftImage(            int SizeX, int SizeY ) ;
-int			MakeARGB8ColorSoftImage(              int SizeX, int SizeY ) ;
 int			MakeXRGB8ColorSoftImage(              int SizeX, int SizeY ) ;
+int			MakeARGB8ColorSoftImage(              int SizeX, int SizeY ) ;
+int			MakeRGBA8ColorSoftImage(              int SizeX, int SizeY ) ;
+int			MakeABGR8ColorSoftImage(              int SizeX, int SizeY ) ;
+int			MakeBGRA8ColorSoftImage(              int SizeX, int SizeY ) ;
 int			MakeARGB4ColorSoftImage(              int SizeX, int SizeY ) ;
 int			MakeA1R5G5B5ColorSoftImage(           int SizeX, int SizeY ) ;
 int			MakeX1R5G5B5ColorSoftImage(           int SizeX, int SizeY ) ;
@@ -4965,6 +4985,7 @@ int			MakeR5G5B5A1ColorSoftImage(           int SizeX, int SizeY ) ;
 int			MakeR5G6B5ColorSoftImage(             int SizeX, int SizeY ) ;
 int			MakeRGB8ColorSoftImage(               int SizeX, int SizeY ) ;
 int			MakePAL8ColorSoftImage(               int SizeX, int SizeY, int UseAlpha  = FALSE  ) ;
+int			MakeColorDataSoftImage(               int SizeX, int SizeY, const(COLORDATA)*ColorData ) ;
 
 int			DeleteSoftImage(                      int SIHandle ) ;
 
@@ -4999,6 +5020,8 @@ int			BltSoftImageWithAlphaBlend(           int SrcX, int SrcY, int SrcSizeX, in
 int			ReverseSoftImageH(                    int SIHandle ) ;
 int			ReverseSoftImageV(                    int SIHandle ) ;
 int			ReverseSoftImage(                     int SIHandle ) ;
+int			ConvertPremulAlphaSoftImage(          int SIHandle ) ;
+int			ConvertInterpAlphaSoftImage(          int SIHandle ) ;
 
 int			BltStringSoftImage(                   int x, int y, const(TCHAR)*StrData,                       int DestSIHandle, int DestEdgeSIHandle  = -1  ,                        int VerticalFlag  = FALSE  ) ;
 int			BltStringSoftImageWithStrLen(         int x, int y, const(TCHAR)*StrData, size_t StrDataLength, int DestSIHandle, int DestEdgeSIHandle  = -1  ,                        int VerticalFlag  = FALSE  ) ;
@@ -5252,7 +5275,7 @@ int			StartSoftSoundPlayer(				int SSoundPlayerHandle ) ;
 int			CheckStartSoftSoundPlayer(			int SSoundPlayerHandle ) ;
 int			StopSoftSoundPlayer(				int SSoundPlayerHandle ) ;
 int			ResetSoftSoundPlayer(				int SSoundPlayerHandle ) ;
-int			GetStockDataLengthSoftSoundPlayer(	int SSoundPlayerHandle ) ;
+int			GetStockDataLengthSoftSoundPlayer(	int SSoundPlayerHandle, int *SoundBufferStockSamples  = NULL  ) ;
 int			CheckSoftSoundPlayerNoneData(		int SSoundPlayerHandle ) ;
 
 
