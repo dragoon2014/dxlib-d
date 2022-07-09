@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x3230;
-enum DXLIB_VERSION_STR_T = _T( "3.23 " );
-enum DXLIB_VERSION_STR_W = "3.23 "w;
+enum DXLIB_VERSION = 0x323b;
+enum DXLIB_VERSION_STR_T = _T( "3.23b" );
+enum DXLIB_VERSION_STR_W = "3.23b"w;
 
 
 
@@ -142,6 +142,29 @@ enum MAX_VERTEX_BUFFER_NUM = (16384);
 enum MAX_INDEX_BUFFER_NUM = (16384);
 enum MAX_FILE_NUM = (32768);
 enum MAX_LIVE2D_CUBISM4_MODEL_NUM = (32768);
+
+
+enum DX_HANDLETYPE_NONE = (0);
+enum DX_HANDLETYPE_GRAPH = (1);
+enum DX_HANDLETYPE_SOFTIMAGE = (2);
+enum DX_HANDLETYPE_SOUND = (3);
+enum DX_HANDLETYPE_SOFTSOUND = (4);
+enum DX_HANDLETYPE_MUSIC = (5);
+enum DX_HANDLETYPE_MOVIE = (6);
+enum DX_HANDLETYPE_GMASK = (7);
+enum DX_HANDLETYPE_FONT = (8);
+enum DX_HANDLETYPE_KEYINPUT = (9);
+enum DX_HANDLETYPE_NETWORK = (10);
+enum DX_HANDLETYPE_LIGHT = (11);
+enum DX_HANDLETYPE_SHADER = (12);
+enum DX_HANDLETYPE_MODEL_BASE = (13);
+enum DX_HANDLETYPE_MODEL = (14);
+enum DX_HANDLETYPE_VERTEX_BUFFER = (15);
+enum DX_HANDLETYPE_INDEX_BUFFER = (16);
+enum DX_HANDLETYPE_FILE = (17);
+enum DX_HANDLETYPE_SHADOWMAP = (18);
+enum DX_HANDLETYPE_SHADER_CONSTANT_BUFFER = (19);
+enum DX_HANDLETYPE_LIVE2D_CUBISM4_MODEL = (20);
 
 enum MAX_JOYPAD_NUM = (16);
 
@@ -853,7 +876,8 @@ enum DX_PADTYPE_DUAL_SENSE = (4);
 enum DX_PADTYPE_SWITCH_JOY_CON_L = (5);
 enum DX_PADTYPE_SWITCH_JOY_CON_R = (6);
 enum DX_PADTYPE_SWITCH_PRO_CTRL = (7);
-enum DX_PADTYPE_NUM = (8);
+enum DX_PADTYPE_SWITCH_HORI_PAD = (8);
+enum DX_PADTYPE_NUM = (9);
 
 
 enum TOUCHINPUTPOINT_MAX = (16);
@@ -1124,6 +1148,13 @@ enum DX_KEYINPSTRCOLOR_NUM = (23);
 
 enum DX_KEYINPSTR_ENDCHARAMODE_OVERWRITE = (0);
 enum DX_KEYINPSTR_ENDCHARAMODE_NOTCHANGE = (1);
+
+
+enum DX_TOUCHINPUT_TOOL_TYPE_UNKNOWN = (0);
+enum DX_TOUCHINPUT_TOOL_TYPE_FINGER = (1);
+enum DX_TOUCHINPUT_TOOL_TYPE_STYLUS = (2);
+enum DX_TOUCHINPUT_TOOL_TYPE_MOUSE = (3);
+enum DX_TOUCHINPUT_TOOL_TYPE_ERASER = (4);
 
 
 enum DX_FSRESOLUTIONMODE_DESKTOP = (0);
@@ -1773,6 +1804,14 @@ struct tagBASEIMAGE
 }alias tagBASEIMAGE   BASEIMAGE;alias tagBASEIMAGE  GRAPHIMAGE;alias tagBASEIMAGE  *LPGRAPHIMAGE ;
 
 
+struct tagRECTDATA
+{
+	int						x1, y1, x2, y2 ;
+	uint			color ;
+	int						pal ;
+}alias tagRECTDATA   RECTDATA;alias tagRECTDATA  *LPRECTDATA ;
+
+
 struct tagLINEDATA
 {
 	int						x1, y1, x2, y2 ;
@@ -1858,6 +1897,10 @@ struct tagTOUCHINPUTPOINT
 	DWORD					ID ;
 	int						PositionX ;
 	int						PositionY ;
+	float					Pressure ;
+	float					Orientation ;
+	float					Tilt ;
+	int						ToolType ;
 }alias tagTOUCHINPUTPOINT   TOUCHINPUTPOINT ;
 
 
@@ -1865,6 +1908,7 @@ struct tagTOUCHINPUTDATA
 {
 	LONGLONG				Time ;
 
+	uint			Source ;
 	int						PointNum ;
 	TOUCHINPUTPOINT[ TOUCHINPUTPOINT_MAX ] Point;
 }alias tagTOUCHINPUTDATA   TOUCHINPUTDATA ;
@@ -2397,11 +2441,13 @@ int			GetDateTime(							DATEDATA *DateBuf ) ;
 int			GetRand( int RandMax ) ;
 int			SRand(	 int Seed ) ;
 
+DWORD		GetMersenneTwisterRand() ;
 
 DWORD_PTR	CreateRandHandle( int Seed  = -1  ) ;
 int			DeleteRandHandle( DWORD_PTR RandHandle ) ;
 int			SRandHandle( DWORD_PTR RandHandle, int Seed ) ;
 int			GetRandHandle( DWORD_PTR RandHandle, int RandMax ) ;
+DWORD		GetMersenneTwisterRandHandle( DWORD_PTR RandHandle ) ;
 
 
 
@@ -2522,7 +2568,8 @@ int			SetASyncLoadThreadNum(			int ThreadNum ) ;
 
 
 int			SetDeleteHandleFlag(		int Handle, int *DeleteFlag ) ;
-
+int			GetHandleNum(				int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
+int			GetMaxHandleNum(			int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
 
 
 
@@ -2562,7 +2609,7 @@ int			GetMouseInputLog2(		int *Button, int *ClickX, int *ClickY, int *LogType, i
 
 
 int				GetTouchInputNum() ;
-int				GetTouchInput( int InputNo, int *PositionX, int *PositionY, int *ID  = NULL  , int *Device  = NULL  ) ;
+int				GetTouchInput( int InputNo, int *PositionX, int *PositionY, int *ID  = NULL  , int *Device  = NULL  , float *Pressure  = NULL  ) ;
 
 int				GetTouchInputLogNum() ;
 int				ClearTouchInputLog() ;
@@ -2842,6 +2889,8 @@ int			KeyInputNumber(					int x, int y, int MaxNum, int MinNum, int CancelValidF
 
 int			GetIMEInputModeStr(				TCHAR *GetBuffer ) ;
 const(IMEINPUTDATA)* GetIMEInputData() ;
+int			SetIMEInputString(				const(TCHAR)*String ) ;
+int			SetIMEInputStringWithStrLen(	const(TCHAR)*String, size_t StringLength ) ;
 int			SetKeyInputStringColor(			ULONGLONG NmlStr, ULONGLONG NmlCur, ULONGLONG IMEStrBack, ULONGLONG IMECur, ULONGLONG IMELine, ULONGLONG IMESelectStr, ULONGLONG IMEModeStr , ULONGLONG NmlStrE  = 0  , ULONGLONG IMESelectStrE  = 0  , ULONGLONG IMEModeStrE  = 0  , ULONGLONG IMESelectWinE  = ULL_PARAM( 0xffffffffffffffff  ) ,	ULONGLONG IMESelectWinF  = ULL_PARAM( 0xffffffffffffffff  ) , ULONGLONG SelectStrBackColor  = ULL_PARAM( 0xffffffffffffffff  ) , ULONGLONG SelectStrColor  = ULL_PARAM( 0xffffffffffffffff  ) , ULONGLONG SelectStrEdgeColor  = ULL_PARAM( 0xffffffffffffffff  ) , ULONGLONG IMEStr  = ULL_PARAM( 0xffffffffffffffff  ) , ULONGLONG IMEStrE  = ULL_PARAM( 0xffffffffffffffff  ) ) ;
 int			SetKeyInputStringColor2(		int TargetColor /* DX_KEYINPSTRCOLOR_NORMAL_STR 等 */ , uint Color ) ;
 int			ResetKeyInputStringColor2(		int TargetColor /* DX_KEYINPSTRCOLOR_NORMAL_STR 等 */ ) ;
@@ -3220,6 +3269,7 @@ int			Paint(			int x, int y, uint FillColor, ULONGLONG BoundaryColor  = ULL_PARA
 
 int			DrawPixelSet(   const(POINTDATA)*PointDataArray, int Num ) ;
 int			DrawLineSet(    const(LINEDATA)*LineDataArray,   int Num ) ;
+int			DrawBoxSet(     const(RECTDATA)*RectDataArray,   int Num ) ;
 
 int			DrawPixel3D(     VECTOR   Pos,                                                                 uint Color ) ;
 int			DrawPixel3DD(    VECTOR_D Pos,                                                                 uint Color ) ;
@@ -3666,6 +3716,7 @@ int			SetShaderConstantBuffer(		int SConstBufHandle, int TargetShader /* DX_SHAD
 
 
 int			SetGraphFilterBltBlendMode( int BlendMode /* DX_BLENDMODE_ALPHA など */ ) ;
+int			SetGraphBlendScalingFilterMode( int IsBilinearFilter ) ;
 
 int			GraphFilter(         int    GrHandle,                                                                                                               int FilterType /* DX_GRAPH_FILTER_GAUSS 等 */ , ... ) ;
 int			GraphFilterBlt(      int SrcGrHandle, int DestGrHandle,                                                                                             int FilterType /* DX_GRAPH_FILTER_GAUSS 等 */ , ... ) ;
@@ -3692,9 +3743,10 @@ int			GraphFilterRectBlt(  int SrcGrHandle, int DestGrHandle, int SrcX1, int Src
 
 
 
-int			GraphBlend(         int    GrHandle, int BlendGrHandle,                                                                                                              int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
-int			GraphBlendBlt(      int SrcGrHandle, int BlendGrHandle, int DestGrHandle,                                                                                            int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
-int			GraphBlendRectBlt(  int SrcGrHandle, int BlendGrHandle, int DestGrHandle, int SrcX1, int SrcY1, int SrcX2, int SrcY2, int BlendX,  int BlendY, int DestX, int DestY, int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
+int			GraphBlend(         int    GrHandle, int BlendGrHandle,                                                                                                                                         int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
+int			GraphBlendBlt(      int SrcGrHandle, int BlendGrHandle, int DestGrHandle,                                                                                                                       int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
+int			GraphBlendRectBlt(  int SrcGrHandle, int BlendGrHandle, int DestGrHandle, int SrcX1, int SrcY1, int SrcX2, int SrcY2, int BlendX,  int BlendY,                            int DestX, int DestY, int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
+int			GraphBlendRectBlt2( int SrcGrHandle, int BlendGrHandle, int DestGrHandle, int SrcX1, int SrcY1, int SrcX2, int SrcY2, int BlendX1, int BlendY1, int BlendX2, int BlendY2, int DestX, int DestY, int BlendRatio /* ブレンド効果の影響度( 0:０％  255:１００％ ) */ , int BlendType /* DX_GRAPH_BLEND_ADD 等 */ , ... ) ;
 
 
 
@@ -3825,6 +3877,7 @@ int			SetMaterialUseVertSpcColor( int UseFlag ) ;
 int			SetMaterialParam(			MATERIALPARAM Material ) ;
 int			SetUseSpecular(				int UseFlag ) ;
 int			SetGlobalAmbientLight(		COLOR_F Color ) ;
+int			SetUseLightAngleAttenuation( int UseFlag ) ;
 
 int			ChangeLightTypeDir(			VECTOR Direction ) ;
 int			ChangeLightTypeSpot(		VECTOR Position, VECTOR Direction, float OutAngle, float InAngle, float Range, float Atten0, float Atten1, float Atten2 ) ;
@@ -5073,7 +5126,7 @@ int			AddStreamSoundMemToFileWithStrLen(   const(TCHAR)*WaveFile, size_t WaveFil
 int			SetupStreamSoundMem(                 int SoundHandle ) ;
 int			PlayStreamSoundMem(                  int SoundHandle, int PlayType  = DX_PLAYTYPE_LOOP  , int TopPositionFlag  = TRUE  ) ;
 int			CheckStreamSoundMem(                 int SoundHandle ) ;
-int			StopStreamSoundMem(                  int SoundHandle ) ;
+int			StopStreamSoundMem(                  int SoundHandle, int IsNextLoopEnd  = FALSE  ) ;
 int			SetStreamSoundCurrentPosition(       LONGLONG Byte, int SoundHandle ) ;
 LONGLONG	GetStreamSoundCurrentPosition(       int SoundHandle ) ;
 int			SetStreamSoundCurrentTime(           LONGLONG Time, int SoundHandle ) ;
@@ -5105,7 +5158,7 @@ int			LoadSoundMemFromSoftSound(           int SoftSoundHandle, int BufferNum  =
 int			DeleteSoundMem(                      int SoundHandle, int LogOutFlag  = FALSE  ) ;
 
 int			PlaySoundMem(                        int SoundHandle, int PlayType, int TopPositionFlag  = TRUE  ) ;
-int			StopSoundMem(                                                                        int SoundHandle ) ;
+int			StopSoundMem(                                                                        int SoundHandle, int IsNextLoopEnd  = FALSE  ) ;
 int			CheckSoundMem(                                                                       int SoundHandle ) ;
 int			SetPanSoundMem(                      int PanPal,                                     int SoundHandle ) ;
 int			ChangePanSoundMem(                   int PanPal,                                     int SoundHandle ) ;
@@ -5389,6 +5442,7 @@ int			MV1SetLoadModelAnimFilePath(						const(TCHAR)*FileName ) ;
 int			MV1SetLoadModelAnimFilePathWithStrLen(				const(TCHAR)*FileName, size_t FileNameLength ) ;
 int			MV1SetLoadModelUsePackDraw(							int Flag ) ;
 int			MV1SetLoadModelTriangleListUseMaxBoneNum(			int UseMaxBoneNum ) ;
+int			MV1SetLoadModelTextureLoad(							int Flag ) ;
 
 
 int			MV1SaveModelToMV1File(				int MHandle, const(TCHAR)*FileName,                        int SaveType  = MV1_SAVETYPE_NORMAL  , int AnimMHandle  = -1  , int AnimNameCheck  = TRUE  , int Normal8BitFlag  = 1  , int Position16BitFlag  = 1  , int Weight8BitFlag  = 0  , int Anim16BitFlag  = 1  ) ;
