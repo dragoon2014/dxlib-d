@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x323b;
-enum DXLIB_VERSION_STR_T = _T( "3.23b" );
-enum DXLIB_VERSION_STR_W = "3.23b"w;
+enum DXLIB_VERSION = 0x323d;
+enum DXLIB_VERSION_STR_T = _T( "3.23d" );
+enum DXLIB_VERSION_STR_W = "3.23d"w;
 
 
 
@@ -717,6 +717,19 @@ enum DX_LIGHTTYPE_SPOT = (2);
 enum DX_LIGHTTYPE_DIRECTIONAL = (3);
 
 
+enum DX_LIVE2D_SHADER_SETUP_MASK_VERTEX = (0);
+enum DX_LIVE2D_SHADER_SETUP_MASK_PIXEL = (1);
+enum DX_LIVE2D_SHADER_NORMAL_VERTEX = (2);
+enum DX_LIVE2D_SHADER_NORMAL_VERTEX_MASKED = (3);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL = (4);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL_MASKED = (5);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL_MASKED_INVERTED = (6);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL_PREMULALPHA = (7);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL_MASKED_PREMULALPHA = (8);
+enum DX_LIVE2D_SHADER_NORMAL_PIXEL_MASKED_INVERTEX_PREMULALPHA = (9);
+enum DX_LIVE2D_SHADER_NUM = (10);
+
+
 enum DX_GRAPHICSIMAGE_FORMAT_3D_PAL4 = (0);
 enum DX_GRAPHICSIMAGE_FORMAT_3D_PAL8 = (1);
 enum DX_GRAPHICSIMAGE_FORMAT_3D_ALPHA_PAL4 = (2);
@@ -871,13 +884,14 @@ enum DX_INPUT_KEY = (0x1000);
 enum DX_PADTYPE_OTHER = (0);
 enum DX_PADTYPE_XBOX_360 = (1);
 enum DX_PADTYPE_XBOX_ONE = (2);
-enum DX_PADTYPE_DUAL_SHOCK_4 = (3);
-enum DX_PADTYPE_DUAL_SENSE = (4);
-enum DX_PADTYPE_SWITCH_JOY_CON_L = (5);
-enum DX_PADTYPE_SWITCH_JOY_CON_R = (6);
-enum DX_PADTYPE_SWITCH_PRO_CTRL = (7);
-enum DX_PADTYPE_SWITCH_HORI_PAD = (8);
-enum DX_PADTYPE_NUM = (9);
+enum DX_PADTYPE_DUAL_SHOCK_3 = (3);
+enum DX_PADTYPE_DUAL_SHOCK_4 = (4);
+enum DX_PADTYPE_DUAL_SENSE = (5);
+enum DX_PADTYPE_SWITCH_JOY_CON_L = (6);
+enum DX_PADTYPE_SWITCH_JOY_CON_R = (7);
+enum DX_PADTYPE_SWITCH_PRO_CTRL = (8);
+enum DX_PADTYPE_SWITCH_HORI_PAD = (9);
+enum DX_PADTYPE_NUM = (10);
 
 
 enum TOUCHINPUTPOINT_MAX = (16);
@@ -2373,6 +2387,7 @@ int			SetUseSoftwareMixingSoundFlag(       int Flag ) ;
 int			SetEnableXAudioFlag(                 int Flag ) ;
 int			SetEnableWASAPIFlag(                 int Flag, int IsExclusive  = TRUE  , int DevicePeriod  = -1  , int SamplePerSec  = 44100  ) ;
 int			SetEnableASIOFlag(                   int Flag, int BufferSize  = -1  , int SamplePerSec  = 44100  ) ;
+int			SetEnableMMEwaveOutFlag(             int Flag, int BufferSamples  = -1  , int SamplePerSec  = 44100  ) ;
 
 
 const(void)*	GetDSoundObj() ;	/* 戻り値を IDirectSound * にキャストして下さい */
@@ -2859,7 +2874,8 @@ int			GetCtrlCodeCmp(		TCHAR Char ) ;
 
 
 
-int			DrawIMEInputString(				int x, int y, int SelectStringNum , int DrawCandidateList  = TRUE  ) ;
+int			DrawIMEInputString(				int x, int y,                                 int SelectStringNum , int DrawCandidateList  = TRUE  ) ;
+int			DrawIMEInputExtendString(		int x, int y, double ExRateX, double ExRateY, int SelectStringNum , int DrawCandidateList  = TRUE  ) ;
 int			SetUseIMEFlag(					int UseFlag ) ;
 int			GetUseIMEFlag() ;
 int			SetInputStringMaxLengthIMESync(	int Flag ) ;
@@ -2906,7 +2922,8 @@ int			GetActiveKeyInput() ;
 int			CheckKeyInput(					int InputHandle ) ;
 int			ReStartKeyInput(				int InputHandle ) ;
 int			ProcessActKeyInput() ;
-int			DrawKeyInputString(				int x, int y, int InputHandle , int DrawCandidateList  = TRUE  ) ;
+int			DrawKeyInputString(				int x, int y,                                 int InputHandle , int DrawCandidateList  = TRUE  ) ;
+int			DrawKeyInputExtendString(		int x, int y, double ExRateX, double ExRateY, int InputHandle , int DrawCandidateList  = TRUE  ) ;
 int			SetKeyInputDrawArea(			int x1, int y1, int x2, int y2, int InputHandle ) ;
 
 int			SetKeyInputSelectArea(			int  SelectStart, int  SelectEnd, int InputHandle ) ;
@@ -3016,6 +3033,7 @@ int			StartJoypadVibration(					int InputType, int Power, int Time, int EffectIn
 int			StopJoypadVibration(					int InputType, int EffectIndex  = -1  ) ;
 int			GetJoypadPOVState(						int InputType, int POVNumber ) ;
 int			ReSetupJoypad() ;
+int			ReSetupInputSystem() ;
 
 int			SetUseJoypadVibrationFlag(				int Flag ) ;
 
@@ -3543,6 +3561,7 @@ int				GetScreenBitDepth() ;
 int				GetColorBitDepth() ;
 int				GetChangeDisplayFlag() ;
 int				GetVideoMemorySize(							int *AllSize, int *FreeSize ) ;
+int				GetVideoMemorySizeEx(						ULONGLONG *TotalSize, ULONGLONG *UseSize ) ;
 int				GetRefreshRate() ;
 int				GetDisplayNum() ;
 int				GetDisplayInfo(								int DisplayIndex, int *DesktopRectX, int *DesktopRectY, int *DesktopSizeX, int *DesktopSizeY, int *IsPrimary ) ;
@@ -4028,6 +4047,7 @@ int			SubSubstitutionFontToHandle(			int FontHandle, int SubstitutionFontHandle 
 
 int			ChangeFont(                             const(TCHAR)*FontName,                        int CharSet  = -1  /* DX_CHARSET_SHFTJIS 等 */ ) ;
 int			ChangeFontWithStrLen(                   const(TCHAR)*FontName, size_t FontNameLength, int CharSet  = -1  /* DX_CHARSET_SHFTJIS 等 */ ) ;
+int			ChangeFontFromHandle(					int FontHandle ) ;
 int			ChangeFontType(                         int FontType ) ;
 const(TCHAR)*GetFontName() ;
 int			SetFontSize(                            int FontSize ) ;
@@ -4131,14 +4151,18 @@ int			DrawString(                             int x, int y,                     
 int			DrawNString(                            int x, int y,                                              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
 int			DrawVString(                            int x, int y,                                              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawNVString(                           int x, int y,                                              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
-int			DrawFormatString(                       int x, int y,                                 uint Color, const(TCHAR)*FormatString, ... ) ;
-int			DrawFormatVString(                      int x, int y,                                 uint Color, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatString(                       int x, int y,                                 uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVString(                      int x, int y,                                 uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatString2(                      int x, int y,                                 uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVString2(                     int x, int y,                                 uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
 int			DrawExtendString(                       int x, int y, double ExRateX, double ExRateY,              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendNString(                      int x, int y, double ExRateX, double ExRateY,              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendVString(                      int x, int y, double ExRateX, double ExRateY,              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendNVString(                     int x, int y, double ExRateX, double ExRateY,              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
-int			DrawExtendFormatString(                 int x, int y, double ExRateX, double ExRateY, uint Color, const(TCHAR)*FormatString, ... ) ;
-int			DrawExtendFormatVString(                int x, int y, double ExRateX, double ExRateY, uint Color, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatString(                 int x, int y, double ExRateX, double ExRateY, uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVString(                int x, int y, double ExRateX, double ExRateY, uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatString2(                int x, int y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVString2(               int x, int y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
 int			DrawRotaString(							int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL                            ) ;
 int			DrawRotaNString(						int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL  , size_t StringLength  = 0  ) ;
 int			DrawRotaFormatString(					int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*FormatString  = NULL  , ...                     ) ;
@@ -4150,14 +4174,18 @@ int			DrawStringF(                            float x, float y,                 
 int			DrawNStringF(                           float x, float y,                                              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
 int			DrawVStringF(                           float x, float y,                                              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawNVStringF(                          float x, float y,                                              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
-int			DrawFormatStringF(                      float x, float y,                                 uint Color, const(TCHAR)*FormatString, ... ) ;
-int			DrawFormatVStringF(                     float x, float y,                                 uint Color, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatStringF(                      float x, float y,                                 uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVStringF(                     float x, float y,                                 uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatString2F(                     float x, float y,                                 uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVString2F(                    float x, float y,                                 uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
 int			DrawExtendStringF(                      float x, float y, double ExRateX, double ExRateY,              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendNStringF(                     float x, float y, double ExRateX, double ExRateY,              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendVStringF(                     float x, float y, double ExRateX, double ExRateY,              const(TCHAR)*String,                      uint Color, uint EdgeColor  = 0  ) ;
 int			DrawExtendNVStringF(                    float x, float y, double ExRateX, double ExRateY,              const(TCHAR)*String, size_t StringLength, uint Color, uint EdgeColor  = 0  ) ;
-int			DrawExtendFormatStringF(                float x, float y, double ExRateX, double ExRateY, uint Color, const(TCHAR)*FormatString, ... ) ;
-int			DrawExtendFormatVStringF(               float x, float y, double ExRateX, double ExRateY, uint Color, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatStringF(                float x, float y, double ExRateX, double ExRateY, uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVStringF(               float x, float y, double ExRateX, double ExRateY, uint Color,                         const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatString2F(               float x, float y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVString2F(              float x, float y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, const(TCHAR)*FormatString, ... ) ;
 int			DrawRotaStringF(						float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL                            ) ;
 int			DrawRotaNStringF(						float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL  , size_t StringLength  = 0  ) ;
 int			DrawRotaFormatStringF(					float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*FormatString  = NULL  , ...                     ) ;
@@ -4194,14 +4222,18 @@ int			DrawStringToHandle(                     int x, int y, const(TCHAR)*String,
 int			DrawNStringToHandle(                    int x, int y, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawVStringToHandle(                    int x, int y, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
 int			DrawNVStringToHandle(                   int x, int y, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
-int			DrawFormatStringToHandle(               int x, int y, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
-int			DrawFormatVStringToHandle(              int x, int y, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatStringToHandle(               int x, int y, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVStringToHandle(              int x, int y, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatString2ToHandle(              int x, int y, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVString2ToHandle(             int x, int y, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
 int			DrawExtendStringToHandle(               int x, int y, double ExRateX, double ExRateY, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawExtendNStringToHandle(              int x, int y, double ExRateX, double ExRateY, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawExtendVStringToHandle(              int x, int y, double ExRateX, double ExRateY, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
 int			DrawExtendNVStringToHandle(             int x, int y, double ExRateX, double ExRateY, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
-int			DrawExtendFormatStringToHandle(         int x, int y, double ExRateX, double ExRateY, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
-int			DrawExtendFormatVStringToHandle(        int x, int y, double ExRateX, double ExRateY, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatStringToHandle(         int x, int y, double ExRateX, double ExRateY, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVStringToHandle(        int x, int y, double ExRateX, double ExRateY, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatString2ToHandle(        int x, int y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVString2ToHandle(       int x, int y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
 int			DrawRotaStringToHandle(					int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor, int VerticalFlag, const(TCHAR)*String                            ) ;
 int			DrawRotaNStringToHandle(				int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor, int VerticalFlag, const(TCHAR)*String,       size_t StringLength ) ;
 int			DrawRotaFormatStringToHandle(			int x, int y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor, int VerticalFlag, const(TCHAR)*FormatString, ...                 ) ;
@@ -4213,14 +4245,18 @@ int			DrawStringFToHandle(                    float x, float y, const(TCHAR)*Str
 int			DrawNStringFToHandle(                   float x, float y, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawVStringFToHandle(                   float x, float y, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
 int			DrawNVStringFToHandle(                  float x, float y, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
-int			DrawFormatStringFToHandle(              float x, float y, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
-int			DrawFormatVStringFToHandle(             float x, float y, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatStringFToHandle(              float x, float y, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVStringFToHandle(             float x, float y, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatString2FToHandle(             float x, float y, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawFormatVString2FToHandle(            float x, float y, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
 int			DrawExtendStringFToHandle(              float x, float y, double ExRateX, double ExRateY, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawExtendNStringFToHandle(             float x, float y, double ExRateX, double ExRateY, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  ) ;
 int			DrawExtendVStringFToHandle(             float x, float y, double ExRateX, double ExRateY, const(TCHAR)*String,                      uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
 int			DrawExtendNVStringFToHandle(            float x, float y, double ExRateX, double ExRateY, const(TCHAR)*String, size_t StringLength, uint Color, int FontHandle, uint EdgeColor  = 0  ) ;
-int			DrawExtendFormatStringFToHandle(        float x, float y, double ExRateX, double ExRateY, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
-int			DrawExtendFormatVStringFToHandle(       float x, float y, double ExRateX, double ExRateY, uint Color, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatStringFToHandle(        float x, float y, double ExRateX, double ExRateY, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVStringFToHandle(       float x, float y, double ExRateX, double ExRateY, uint Color,                         int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatString2FToHandle(       float x, float y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
+int			DrawExtendFormatVString2FToHandle(      float x, float y, double ExRateX, double ExRateY, uint Color, uint EdgeColor, int FontHandle, const(TCHAR)*FormatString, ... ) ;
 int			DrawRotaStringFToHandle(				float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL                            ) ;
 int			DrawRotaNStringFToHandle(				float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*String        = NULL  , size_t StringLength  = 0  ) ;
 int			DrawRotaFormatStringFToHandle(			float x, float y, double ExRateX, double ExRateY, double RotCenterX, double RotCenterY, double RotAngle, uint Color, int FontHandle, uint EdgeColor  = 0  , int VerticalFlag  = FALSE  , const(TCHAR)*FormatString  = NULL  , ...                     ) ;
@@ -4883,6 +4919,7 @@ int			SetUseFastLoadFlag(              int Flag ) ;
 int			SetGraphDataShavedMode(          int ShavedMode /* DX_SHAVEDMODE_NONE 等 */ ) ;
 int			GetGraphDataShavedMode() ;
 int			SetUsePremulAlphaConvertLoad(    int UseFlag ) ;
+int			SetUseConvertNormalFormatLoad(   int UseFlag ) ;
 
 
 int			CreateBaseImage(                 const(TCHAR)*FileName,                        const(void)*FileImage, int FileImageSize, int DataType /*=LOADIMAGE_TYPE_FILE*/ , BASEIMAGE *BaseImage,  int ReverseFlag ) ;
@@ -4986,6 +5023,7 @@ int				CreateARGB8ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateRGBA8ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateABGR8ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateBGRA8ColorData(    COLORDATA *ColorDataBuf ) ;
+int				CreateBGR8ColorData(     COLORDATA *ColorDataBuf ) ;
 int				CreateARGB4ColorData(    COLORDATA *ColorDataBuf ) ;
 int				CreateA1R5G5B5ColorData( COLORDATA *ColorDataBuf ) ;
 int				CreateX1R5G5B5ColorData( COLORDATA *ColorDataBuf ) ;
@@ -5443,6 +5481,7 @@ int			MV1SetLoadModelAnimFilePathWithStrLen(				const(TCHAR)*FileName, size_t Fi
 int			MV1SetLoadModelUsePackDraw(							int Flag ) ;
 int			MV1SetLoadModelTriangleListUseMaxBoneNum(			int UseMaxBoneNum ) ;
 int			MV1SetLoadModelTextureLoad(							int Flag ) ;
+int			MV1SetLoadModelIgnoreIK(							int IgnoreFlag ) ;
 
 
 int			MV1SaveModelToMV1File(				int MHandle, const(TCHAR)*FileName,                        int SaveType  = MV1_SAVETYPE_NORMAL  , int AnimMHandle  = -1  , int AnimNameCheck  = TRUE  , int Normal8BitFlag  = 1  , int Position16BitFlag  = 1  , int Weight8BitFlag  = 0  , int Anim16BitFlag  = 1  ) ;
@@ -5827,6 +5866,12 @@ int			Live2D_LoadModelWithStrLen(	const(TCHAR)*FilePath, size_t FilePathLength )
 int			Live2D_DeleteModel(			int Live2DModelHandle ) ;
 int			Live2D_InitModel() ;
 
+int			Live2D_SetUserShader( int TargetShader /* DX_LIVE2D_SHADER_NORMAL_PIXEL 等 */ , int ShaderHandle  = -1  ) ;
+int			Live2D_DrawCallback( void  function( int Live2DModelHandle, int TextureIndex, void *UserData )Callback, void *UserData ) ;
+int			Live2D_SetUseAutoScaling( int UseFlag ) ;
+int			Live2D_SetUseAutoCentering( int UseFlag ) ;
+int			Live2D_SetUseReverseYAxis( int UseFlag ) ;
+
 int			Live2D_Model_Update(			int Live2DModelHandle, float DeltaTimeSeconds ) ;
 int			Live2D_Model_SetTranslate(		int Live2DModelHandle, float x, float y ) ;
 int			Live2D_Model_SetExtendRate(		int Live2DModelHandle, float ExRateX, float ExRateY ) ;
@@ -5872,6 +5917,8 @@ int			Live2D_Model_GetEyeBlinkParameterCount(				int Live2DModelHandle ) ;
 const(TCHAR)*Live2D_Model_GetEyeBlinkParameterId(				int Live2DModelHandle, int index ) ;
 int			Live2D_Model_GetLipSyncParameterCount(				int Live2DModelHandle ) ;
 const(TCHAR)*Live2D_Model_GetLipSyncParameterId(				int Live2DModelHandle, int index ) ;
+float		Live2D_Model_GetCanvasWidth(						int Live2DModelHandle ) ;
+float		Live2D_Model_GetCanvasHeight(						int Live2DModelHandle ) ;
 
 
 
