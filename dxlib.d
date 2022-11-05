@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x323f;
-enum DXLIB_VERSION_STR_T = _T( "3.23f" );
-enum DXLIB_VERSION_STR_W = "3.23f"w;
+enum DXLIB_VERSION = 0x3240;
+enum DXLIB_VERSION_STR_T = _T( "3.24 " );
+enum DXLIB_VERSION_STR_W = "3.24 "w;
 
 
 
@@ -2413,6 +2413,7 @@ int			SetUseSoftwareMixingSoundFlag(       int Flag ) ;
 int			SetEnableXAudioFlag(                 int Flag ) ;
 int			SetEnableWASAPIFlag(                 int Flag, int IsExclusive  = TRUE  , int DevicePeriod  = -1  , int SamplePerSec  = 44100  ) ;
 int			SetEnableASIOFlag(                   int Flag, int BufferSize  = -1  , int SamplePerSec  = 44100  ) ;
+int			SetUseASIODriverIndex(               int Index ) ;
 int			SetEnableMMEwaveOutFlag(             int Flag, int BufferSamples  = -1  , int SamplePerSec  = 44100  ) ;
 
 
