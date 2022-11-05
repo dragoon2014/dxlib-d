@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x323d;
-enum DXLIB_VERSION_STR_T = _T( "3.23d" );
-enum DXLIB_VERSION_STR_W = "3.23d"w;
+enum DXLIB_VERSION = 0x323f;
+enum DXLIB_VERSION_STR_T = _T( "3.23f" );
+enum DXLIB_VERSION_STR_W = "3.23f"w;
 
 
 
@@ -130,7 +130,7 @@ enum MAX_SOFTSOUND_NUM = (8192);
 enum MAX_MUSIC_NUM = (256);
 enum MAX_MOVIE_NUM = (100);
 enum MAX_MASK_NUM = (32768);
-enum MAX_FONT_NUM = (40);
+enum MAX_FONT_NUM = (256);
 enum MAX_INPUT_NUM = (256);
 enum MAX_SOCKET_NUM = (8192);
 enum MAX_LIGHT_NUM = (4096);
@@ -322,7 +322,32 @@ enum DX_BLENDMODE_SPINE_NORMAL = (28);
 enum DX_BLENDMODE_SPINE_ADDITIVE = (29);
 enum DX_BLENDMODE_SPINE_MULTIPLY = (30);
 enum DX_BLENDMODE_SPINE_SCREEN = (31);
-enum DX_BLENDMODE_NUM = (32);
+enum DX_BLENDMODE_CUSTOM = (32);
+enum DX_BLENDMODE_NUM = (33);
+
+
+
+
+enum DX_BLEND_ZERO = (0);
+enum DX_BLEND_ONE = (1);
+enum DX_BLEND_SRC_COLOR = (2);
+enum DX_BLEND_INV_SRC_COLOR = (3);
+enum DX_BLEND_SRC_ALPHA = (4);
+enum DX_BLEND_INV_SRC_ALPHA = (5);
+enum DX_BLEND_DEST_COLOR = (6);
+enum DX_BLEND_INV_DEST_COLOR = (7);
+enum DX_BLEND_DEST_ALPHA = (8);
+enum DX_BLEND_INV_DEST_ALPHA = (9);
+enum DX_BLEND_SRC_ALPHA_SAT = (10);
+enum DX_BLEND_NUM = (11);
+
+
+enum DX_BLENDOP_ADD = (0);
+enum DX_BLENDOP_SUBTRACT = (1);
+enum DX_BLENDOP_REV_SUBTRACT = (2);
+enum DX_BLENDOP_MIX = (3);
+enum DX_BLENDOP_MAX = (4);
+enum DX_BLENDOP_NUM = (5);
 
 
 enum DX_DRAWFLOATCOORDTYPE_DIRECT3D9 = (0);
@@ -1171,9 +1196,10 @@ enum DX_TOUCHINPUT_TOOL_TYPE_MOUSE = (3);
 enum DX_TOUCHINPUT_TOOL_TYPE_ERASER = (4);
 
 
-enum DX_FSRESOLUTIONMODE_DESKTOP = (0);
-enum DX_FSRESOLUTIONMODE_NATIVE = (1);
-enum DX_FSRESOLUTIONMODE_MAXIMUM = (2);
+enum DX_FSRESOLUTIONMODE_BORDERLESS_WINDOW = (0);
+enum DX_FSRESOLUTIONMODE_DESKTOP = (1);
+enum DX_FSRESOLUTIONMODE_NATIVE = (2);
+enum DX_FSRESOLUTIONMODE_MAXIMUM = (3);
 
 
 enum DX_FSSCALINGMODE_BILINEAR = (0);
@@ -3420,6 +3446,8 @@ int			SetDrawMode(						int DrawMode ) ;
 int			GetDrawMode() ;
 int			SetDrawBlendMode(					int BlendMode, int BlendParam ) ;
 int			GetDrawBlendMode(					int *BlendMode, int *BlendParam ) ;
+int			SetDrawCustomBlendMode(				int BlendEnable, int SrcBlendRGB /* DX_BLEND_SRC_COLOR 等 */, int DestBlendRGB /* DX_BLEND_SRC_COLOR 等 */, int BlendOpRGB /* DX_BLENDOP_ADD 等 */, int SrcBlendA /* DX_BLEND_SRC_COLOR 等 */, int DestBlendA /* DX_BLEND_SRC_COLOR 等 */, int BlendOpA /* DX_BLENDOP_ADD 等 */, int BlendParam ) ;
+int			GetDrawCustomBlendMode(				int *BlendEnable, int *SrcBlendRGB, int *DestBlendRGB, int *BlendOpRGB, int *SrcBlendA, int *DestBlendA, int *BlendOpA, int *BlendParam ) ;
 int			SetDrawAlphaTest(					int TestMode, int TestParam ) ;
 int			GetDrawAlphaTest(					int *TestMode, int *TestParam ) ;
 int			SetBlendGraph(						int BlendGraph, int BorderParam, int BorderRange ) ;
@@ -3546,6 +3574,7 @@ int				SetGraphMode(								int ScreenSizeX, int ScreenSizeY, int ColorBitDepth,
 int				SetUserScreenImage(							void *Image, int PixelFormat /* DX_USER_SCREEN_PIXEL_FORMAT_R5G6B5 等 */ ) ;
 int				SetFullScreenResolutionMode(				int ResolutionMode /* DX_FSRESOLUTIONMODE_NATIVE 等 */ ) ;
 int				GetFullScreenResolutionMode(				int *ResolutionMode, int *UseResolutionMode ) ;
+int				GetUseFullScreenResolutionMode() ;
 int				SetFullScreenScalingMode(					int ScalingMode /* DX_FSSCALINGMODE_NEAREST 等 */ , int FitScaling  = FALSE  ) ;
 int				SetEmulation320x240(						int Flag ) ;
 int				SetZBufferSize(								int ZBufferSizeX, int ZBufferSizeY ) ;
@@ -5564,6 +5593,8 @@ int			MV1SetAttachAnimBlendRate(			int MHandle, int AttachIndex, float Rate  = 1
 float		MV1GetAttachAnimBlendRate(			int MHandle, int AttachIndex ) ;
 int			MV1SetAttachAnimBlendRateToFrame(	int MHandle, int AttachIndex, int FrameIndex, float Rate, int SetChild  = TRUE  ) ;
 float		MV1GetAttachAnimBlendRateToFrame(	int MHandle, int AttachIndex, int FrameIndex ) ;
+int			MV1SetAttachAnimTimeToFrame(		int MHandle, int AttachIndex, int FrameIndex, float Time, int SetChild  = TRUE  ) ;
+float		MV1GetAttachAnimTimeToFrame(		int MHandle, int AttachIndex, int FrameIndex ) ;
 int			MV1GetAttachAnim(					int MHandle, int AttachIndex ) ;
 int			MV1SetAttachAnimUseShapeFlag(		int MHandle, int AttachIndex, int UseFlag ) ;
 int			MV1GetAttachAnimUseShapeFlag(		int MHandle, int AttachIndex ) ;
@@ -5880,7 +5911,9 @@ int			Live2D_Model_Draw(				int Live2DModelHandle ) ;
 
 int			Live2D_Model_StartMotion(				int Live2DModelHandle, const(TCHAR)*group,						int no ) ;
 int			Live2D_Model_StartMotionWithStrLen(		int Live2DModelHandle, const(TCHAR)*group, size_t groupLength,	int no ) ;
+int			Live2D_Model_GetLastPlayMotionNo(		int Live2DModelHandle ) ;
 int			Live2D_Model_IsMotionFinished(			int Live2DModelHandle ) ;
+float		Live2D_Model_GetMotionPlayTime(			int Live2DModelHandle ) ;
 int			Live2D_Model_SetExpression(				int Live2DModelHandle, const(TCHAR)*expressionID ) ;
 int			Live2D_Model_SetExpressionWithStrLen(	int Live2DModelHandle, const(TCHAR)*expressionID, size_t expressionIDLength ) ;
 int			Live2D_Model_HitTest(					int Live2DModelHandle, const(TCHAR)*hitAreaName,							float x, float y ) ;
