@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x3240;
-enum DXLIB_VERSION_STR_T = _T( "3.24 " );
-enum DXLIB_VERSION_STR_W = "3.24 "w;
+enum DXLIB_VERSION = 0x324b;
+enum DXLIB_VERSION_STR_T = _T( "3.24b" );
+enum DXLIB_VERSION_STR_W = "3.24b"w;
 
 
 
@@ -2079,6 +2079,7 @@ int			SetUseFPUPreserveFlag(					int Flag ) ;
 int			SetValidMousePointerWindowOutClientAreaMoveFlag( int Flag ) ;
 int			SetUseBackBufferTransColorFlag(			int Flag ) ;
 int			SetUseUpdateLayerdWindowFlag(			int Flag ) ;
+int			SetUseMouseEventTransparentWindowFlag(	int Flag ) ;
 int			SetResourceModule(						HMODULE ResourceModule ) ;
 int			SetUseDxLibWM_PAINTProcess(				int Flag ) ;
 int			SetWindows10_WM_CHAR_CancelTime(		int MilliSecond ) ;
@@ -2271,6 +2272,7 @@ int			BltRectBackScreenToWindow(		HWND Window, RECT BackScreenRect, RECT WindowC
 int			SetScreenFlipTargetWindow(		HWND TargetWindow, double ScaleX  = 1.0  , double ScaleY  = 1.0  ) ;
 int			GetDesktopScreenGraph(			int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
 void *		GetDesktopScreenGraphMemImage(	int x1, int y1, int x2, int y2, int *Width, int *Height, int *Stride, int ColorBitDepth  = 32  ) ;
+int			GetOtherWindowGraph(			HWND Window, int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
 
 
 int			SetMultiThreadFlag(								int Flag ) ;
@@ -2284,6 +2286,8 @@ int			SetUseDirect3DVersion(							int Version /* DX_DIRECT3D_9 など */ ) ;
 int			GetUseDirect3DVersion() ;
 int			GetUseDirect3D11FeatureLevel() ;
 int			SetUseDirect3D11AdapterIndex(					int Index ) ;
+int			SetUseDirect3D11BGRASupport(					int Flag ) ;
+int			GetUseDirect3D11BGRASupport() ;
 int			SetUseDirectDrawFlag(							int Flag ) ;
 int			SetUseGDIFlag(									int Flag ) ;
 int			GetUseGDIFlag() ;
@@ -2548,6 +2552,7 @@ int			AppLogAdd(				const(TCHAR)*String , ... ) ;
 
 
 int			SetOutApplicationLogValidFlag(	          int Flag ) ;
+int			SetOutApplicationSystemLogValidFlag(      int Flag ) ;
 int			SetApplicationLogFileName(                const(TCHAR)*FileName ) ;
 int			SetApplicationLogFileNameWithStrLen(      const(TCHAR)*FileName, size_t FileNameLength ) ;
 int			SetApplicationLogSaveDirectory(	          const(TCHAR)*DirectoryPath ) ;
@@ -2612,6 +2617,7 @@ int			SetASyncLoadThreadNum(			int ThreadNum ) ;
 int			SetDeleteHandleFlag(		int Handle, int *DeleteFlag ) ;
 int			GetHandleNum(				int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
 int			GetMaxHandleNum(			int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
+int			DumpHandleInfo(				int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
 
 
 
@@ -2628,6 +2634,7 @@ int			GetMaxHandleNum(			int HandleType /* DX_HANDLETYPE_GRAPH等 */ ) ;
 
 
 int			SetMouseDispFlag(		int DispFlag ) ;
+int			SetMouseDispIgnoreMenuFlag(	int IgnoreMenuFlag ) ;
 int			GetMousePoint(			int *XBuf, int *YBuf ) ;
 int			SetMousePoint(			int PointX, int PointY ) ;
 int			GetMouseInput() ;
@@ -2988,6 +2995,7 @@ int			FileRead_open_WithStrLen(			const(TCHAR)*FilePath, size_t FilePathLength, 
 int			FileRead_open_mem(					const(void)*FileImage, size_t FileImageSize ) ;
 LONGLONG	FileRead_size(						const(TCHAR)*FilePath ) ;
 LONGLONG	FileRead_size_WithStrLen(			const(TCHAR)*FilePath, size_t FilePathLength ) ;
+LONGLONG	FileRead_size_handle(				int FileHandle ) ;
 int			FileRead_close(						int FileHandle ) ;
 LONGLONG	FileRead_tell(						int FileHandle ) ;
 int			FileRead_seek(						int FileHandle , LONGLONG Offset , int Origin ) ;
@@ -3056,6 +3064,8 @@ int			GetJoypadXInputState(					int InputType, XINPUT_STATE *XInputState ) ;
 int			SetJoypadInputToKeyInput(				int InputType, int PadInput, int KeyInput1, int KeyInput2  = -1  , int KeyInput3  = -1  , int KeyInput4  = -1   ) ;
 int			SetJoypadDeadZone(						int InputType, double Zone ) ;
 double		GetJoypadDeadZone(						int InputType ) ;
+int			SetJoypadDefaultDeadZoneAll(			double Zone ) ;
+double		GetJoypadDefaultDeadZoneAll() ;
 int			StartJoypadVibration(					int InputType, int Power, int Time, int EffectIndex  = -1  ) ;
 int			StopJoypadVibration(					int InputType, int EffectIndex  = -1  ) ;
 int			GetJoypadPOVState(						int InputType, int POVNumber ) ;
@@ -3205,6 +3215,10 @@ int			SetCreateGraphChannelBitDepth(				int BitDepth ) ;
 int			GetCreateGraphChannelBitDepth() ;
 int			SetCreateGraphInitGraphDelete(				int Flag ) ;
 int			GetCreateGraphInitGraphDelete() ;
+int			SetCreateGraphHandle(						int GrHandle ) ;
+int			GetCreateGraphHandle() ;
+int			SetCreateDivGraphHandle(					const(int)*HandleArray, int HandleNum ) ;
+int			GetCreateDivGraphHandle(					int *HandleArray ) ;
 int			SetDrawValidGraphCreateFlag(				int Flag ) ;
 int			GetDrawValidGraphCreateFlag() ;
 int			SetDrawValidFlagOf3DGraph(					int Flag ) ;
@@ -3253,6 +3267,8 @@ int			SetUseGraphBaseDataBackup(					int Flag ) ;
 int			GetUseGraphBaseDataBackup() ;
 int			SetUseSystemMemGraphCreateFlag(				int Flag ) ;
 int			GetUseSystemMemGraphCreateFlag() ;
+int			SetUseLoadDivGraphSizeCheckFlag(			int Flag ) ;
+int			GetUseLoadDivGraphSizeCheckFlag() ;
 
 
 const(uint)* GetFullColorImage(				int GrHandle ) ;
@@ -3415,8 +3431,11 @@ int			DrawPolygon(                             const(VERTEX)*VertexArray, int Po
 int			DrawPolygon2D(                           const(VERTEX2D)*VertexArray, int PolygonNum,                                                                                                       int GrHandle, int TransFlag ) ;
 int			DrawPolygon3D(                           const(VERTEX3D)*VertexArray, int PolygonNum,                                                                                                       int GrHandle, int TransFlag ) ;
 int			DrawPolygonIndexed2D(                    const(VERTEX2D)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum,                                                      int GrHandle, int TransFlag ) ;
+int			DrawPolygon32bitIndexed2D(               const(VERTEX2D)*VertexArray, int VertexNum, const(uint)*IndexArray, int PolygonNum,                                                      int GrHandle, int TransFlag ) ;
 int			DrawPolygonIndexed3D(                    const(VERTEX3D)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum,                                                      int GrHandle, int TransFlag ) ;
+int			DrawPolygon32bitIndexed3D(               const(VERTEX3D)*VertexArray, int VertexNum, const(uint)*IndexArray, int PolygonNum,                                                      int GrHandle, int TransFlag ) ;
 int			DrawPolygonIndexed3DBase(                const(VERTEX_3D)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
+int			DrawPolygon32bitIndexed3DBase(           const(VERTEX_3D)*VertexArray, int VertexNum, const(uint)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 int			DrawPolygon3DBase(                       const(VERTEX_3D)*VertexArray, int VertexNum,                                                   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 int			DrawPolygon3D(                           const(VERTEX_3D)*VertexArray, int PolygonNum,                                                                                                       int GrHandle, int TransFlag ) ;
 int			DrawPolygon3D2(                          const(VERTEX_3D)*VertexArray, int PolygonNum,                                                                                                       int GrHandle, int TransFlag ) ;
@@ -3425,7 +3444,9 @@ int			DrawPolygonBase(                         const(VERTEX)*VertexArray, int Ve
 int			DrawPrimitive2D(                         const(VERTEX2D)*VertexArray, int VertexNum,                                                   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 int			DrawPrimitive3D(                         const(VERTEX3D)*VertexArray, int VertexNum,                                                   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 int			DrawPrimitiveIndexed2D(                  const(VERTEX2D)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
+int			DrawPrimitive32bitIndexed2D(             const(VERTEX2D)*VertexArray, int VertexNum, const(uint)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 int			DrawPrimitiveIndexed3D(                  const(VERTEX3D)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
+int			DrawPrimitive32bitIndexed3D(             const(VERTEX3D)*VertexArray, int VertexNum, const(uint)*IndexArray, int IndexNum,   int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */, int GrHandle, int TransFlag ) ;
 
 int			DrawPolygon3D_UseVertexBuffer(           int VertexBufHandle,                                                                                                                                                               int GrHandle, int TransFlag ) ;
 int			DrawPrimitive3D_UseVertexBuffer(         int VertexBufHandle,                     int PrimitiveType  /* DX_PRIMTYPE_TRIANGLELIST 等 */,                                                                                     int GrHandle, int TransFlag ) ;
@@ -3532,6 +3553,8 @@ VECTOR_D	ConvScreenPosToWorldPos_ZLinearD(	VECTOR_D ScreenPos ) ;
 int			SetUseCullingFlag(					int Flag ) ;
 int			SetUseBackCulling(					int Flag /* DX_CULLING_LEFT 等 */ ) ;
 int			GetUseBackCulling() ;
+int			SetUseRightHandClippingProcess(		int Flag ) ;
+int			GetUseRightHandClippingProcess() ;
 
 int			SetTextureAddressMode(				int Mode /* DX_TEXADDRESS_WRAP 等 */ , int Stage  = -1  ) ;
 int			SetTextureAddressModeUV(			int ModeU, int ModeV, int Stage  = -1  ) ;
@@ -3736,18 +3759,23 @@ int			SetUseVertexShader(      int ShaderHandle ) ;
 int			SetUseGeometryShader(    int ShaderHandle ) ;
 int			SetUsePixelShader(       int ShaderHandle ) ;
 
-int			CalcPolygonBinormalAndTangentsToShader(        VERTEX3DSHADER *VertexArray, int PolygonNum ) ;
-int			CalcPolygonIndexedBinormalAndTangentsToShader( VERTEX3DSHADER *VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
+int			CalcPolygonBinormalAndTangentsToShader(             VERTEX3DSHADER *VertexArray, int PolygonNum ) ;
+int			CalcPolygonIndexedBinormalAndTangentsToShader(      VERTEX3DSHADER *VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
+int			CalcPolygon32bitIndexedBinormalAndTangentsToShader( VERTEX3DSHADER *VertexArray, int VertexNum, const(uint)*IndexArray, int PolygonNum ) ;
 
 int			DrawBillboard3DToShader( VECTOR Pos, float cx, float cy, float Size, float Angle, int GrHandle, int TransFlag, int ReverseXFlag  = FALSE  , int ReverseYFlag  = FALSE  ) ;
-int			DrawPolygon2DToShader(          const(VERTEX2DSHADER)*VertexArray, int PolygonNum ) ;
-int			DrawPolygon3DToShader(          const(VERTEX3DSHADER)*VertexArray, int PolygonNum ) ;
-int			DrawPolygonIndexed2DToShader(   const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
-int			DrawPolygonIndexed3DToShader(   const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
-int			DrawPrimitive2DToShader(        const(VERTEX2DSHADER)*VertexArray, int VertexNum,                                                 int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
-int			DrawPrimitive3DToShader(        const(VERTEX3DSHADER)*VertexArray, int VertexNum,                                                 int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
-int			DrawPrimitiveIndexed2DToShader( const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
-int			DrawPrimitiveIndexed3DToShader( const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPolygon2DToShader(               const(VERTEX2DSHADER)*VertexArray, int PolygonNum ) ;
+int			DrawPolygon3DToShader(               const(VERTEX3DSHADER)*VertexArray, int PolygonNum ) ;
+int			DrawPolygonIndexed2DToShader(        const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
+int			DrawPolygon32bitIndexed2DToShader(   const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(uint)*IndexArray, int PolygonNum ) ;
+int			DrawPolygonIndexed3DToShader(        const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int PolygonNum ) ;
+int			DrawPolygon32bitIndexed3DToShader(   const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(uint)*IndexArray, int PolygonNum ) ;
+int			DrawPrimitive2DToShader(             const(VERTEX2DSHADER)*VertexArray, int VertexNum,                                                 int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPrimitive3DToShader(             const(VERTEX3DSHADER)*VertexArray, int VertexNum,                                                 int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPrimitiveIndexed2DToShader(      const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPrimitive32bitIndexed2DToShader( const(VERTEX2DSHADER)*VertexArray, int VertexNum, const(uint)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPrimitiveIndexed3DToShader(      const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(ushort)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
+int			DrawPrimitive32bitIndexed3DToShader( const(VERTEX3DSHADER)*VertexArray, int VertexNum, const(uint)*IndexArray, int IndexNum, int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
 int			DrawPolygon3DToShader_UseVertexBuffer(           int VertexBufHandle ) ;
 int			DrawPolygonIndexed3DToShader_UseVertexBuffer(    int VertexBufHandle, int IndexBufHandle ) ;
 int			DrawPrimitive3DToShader_UseVertexBuffer(         int VertexBufHandle,                     int PrimitiveType /* DX_PRIMTYPE_TRIANGLELIST 等 */ ) ;
@@ -4164,6 +4192,8 @@ int			SetFontCacheUsePremulAlphaFlag(         int Flag ) ;
 int			GetFontCacheUsePremulAlphaFlag() ;
 int			SetFontUseAdjustSizeFlag(               int Flag ) ;
 int			GetFontUseAdjustSizeFlag() ;
+int			SetFontOnlyDrawType(					int OnlyType ) ;
+int			GetFontOnlyDrawType() ;
 
 
 
@@ -4949,7 +4979,9 @@ int			SetUseFastLoadFlag(              int Flag ) ;
 int			SetGraphDataShavedMode(          int ShavedMode /* DX_SHAVEDMODE_NONE 等 */ ) ;
 int			GetGraphDataShavedMode() ;
 int			SetUsePremulAlphaConvertLoad(    int UseFlag ) ;
+int			GetUsePremulAlphaConvertLoad() ;
 int			SetUseConvertNormalFormatLoad(   int UseFlag ) ;
+int			GetUseConvertNormalFormatLoad() ;
 
 
 int			CreateBaseImage(                 const(TCHAR)*FileName,                        const(void)*FileImage, int FileImageSize, int DataType /*=LOADIMAGE_TYPE_FILE*/ , BASEIMAGE *BaseImage,  int ReverseFlag ) ;
