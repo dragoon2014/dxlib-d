@@ -92,9 +92,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x324b;
-enum DXLIB_VERSION_STR_T = _T( "3.24b" );
-enum DXLIB_VERSION_STR_W = "3.24b"w;
+enum DXLIB_VERSION = 0x324d;
+enum DXLIB_VERSION_STR_T = _T( "3.24d" );
+enum DXLIB_VERSION_STR_W = "3.24d"w;
 
 
 
@@ -323,7 +323,12 @@ enum DX_BLENDMODE_SPINE_ADDITIVE = (29);
 enum DX_BLENDMODE_SPINE_MULTIPLY = (30);
 enum DX_BLENDMODE_SPINE_SCREEN = (31);
 enum DX_BLENDMODE_CUSTOM = (32);
-enum DX_BLENDMODE_NUM = (33);
+enum DX_BLENDMODE_DST_RGB_SRC_A = (33);
+enum DX_BLENDMODE_INVDESTCOLOR_A = (34);
+enum DX_BLENDMODE_MUL_A = (35);
+enum DX_BLENDMODE_PMA_INVDESTCOLOR_A = (36);
+enum DX_BLENDMODE_PMA_MUL_A = (37);
+enum DX_BLENDMODE_NUM = (38);
 
 
 
@@ -431,7 +436,9 @@ enum DX_GRAPH_BLEND_PMA_EXCLUSION = (30);
 enum DX_GRAPH_BLEND_PMA_NORMAL_ALPHACH = (31);
 enum DX_GRAPH_BLEND_PMA_ADD_ALPHACH = (32);
 enum DX_GRAPH_BLEND_PMA_MULTIPLE_A_ONLY = (33);
-enum DX_GRAPH_BLEND_NUM = (34);
+enum DX_GRAPH_BLEND_MASK = (34);
+enum DX_GRAPH_BLEND_PMA_MASK = (35);
+enum DX_GRAPH_BLEND_NUM = (36);
 
 
 enum DX_RGBA_SELECT_SRC_R = (0);
@@ -2083,6 +2090,7 @@ int			SetUseMouseEventTransparentWindowFlag(	int Flag ) ;
 int			SetResourceModule(						HMODULE ResourceModule ) ;
 int			SetUseDxLibWM_PAINTProcess(				int Flag ) ;
 int			SetWindows10_WM_CHAR_CancelTime(		int MilliSecond ) ;
+int			SetUseWindows10_WM_CHAR_CancelTime(		int Flag ) ;
 
 
 int			SetDragFileValidFlag(		int Flag ) ;
@@ -2286,6 +2294,8 @@ int			SetUseDirect3DVersion(							int Version /* DX_DIRECT3D_9 など */ ) ;
 int			GetUseDirect3DVersion() ;
 int			GetUseDirect3D11FeatureLevel() ;
 int			SetUseDirect3D11AdapterIndex(					int Index ) ;
+int			SetUseDirect3D11AdapterLUID(					LUID *UseLUID ) ;
+LUID		GetUseDirect3D11AdapterLUID() ;
 int			SetUseDirect3D11BGRASupport(					int Flag ) ;
 int			GetUseDirect3D11BGRASupport() ;
 int			SetUseDirectDrawFlag(							int Flag ) ;
@@ -2500,7 +2510,7 @@ DWORD		GetMersenneTwisterRandHandle( DWORD_PTR RandHandle ) ;
 int			GetBatteryLifePercent() ;
 
 
-int			GetClipboardText(			TCHAR *DestBuffer ) ;
+int			GetClipboardText(			TCHAR *DestBuffer, int DestBufferBytes  = -1  ) ;
 int			SetClipboardText(			const(TCHAR)*Text                    ) ;
 int			SetClipboardTextWithStrLen(	const(TCHAR)*Text, size_t TextLength ) ;
 
@@ -2922,12 +2932,15 @@ int			GetStringPoint2(			const(TCHAR)*String,                      int Point ) ;
 int			GetStringPoint2WithStrLen(	const(TCHAR)*String, size_t StringLength, int Point ) ;
 int			GetStringLength(			const(TCHAR)*String ) ;
 
-int			DrawObtainsString(						int x, int y, int AddY, const(TCHAR)*String,                      uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  ) ;
-int			DrawObtainsNString(						int x, int y, int AddY, const(TCHAR)*String, size_t StringLength, uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  ) ;
-int			DrawObtainsString_CharClip(				int x, int y, int AddY, const(TCHAR)*String,                      uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  ) ;
-int			DrawObtainsNString_CharClip(			int x, int y, int AddY, const(TCHAR)*String, size_t StringLength, uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  ) ;
-int			GetObtainsStringCharPosition(			int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  ) ;
-int			GetObtainsStringCharPosition_CharClip(	int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  ) ;
+int			DrawObtainsString(						int x, int y, int AddY, const(TCHAR)*String,                      uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			DrawObtainsNString(						int x, int y, int AddY, const(TCHAR)*String, size_t StringLength, uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			DrawObtainsString_CharClip(				int x, int y, int AddY, const(TCHAR)*String,                      uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			DrawObtainsNString_CharClip(			int x, int y, int AddY, const(TCHAR)*String, size_t StringLength, uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			DrawObtainsString_WordClip(				int x, int y, int AddY, const(TCHAR)*String,                      uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			DrawObtainsNString_WordClip(			int x, int y, int AddY, const(TCHAR)*String, size_t StringLength, uint StrColor, uint StrEdgeColor  = 0  , int FontHandle  = -1  , uint SelectBackColor  = 0xffffffff  , uint SelectStrColor  = 0  , uint SelectStrEdgeColor  = 0xffffffff  , int SelectStart  = -1  , int SelectEnd  = -1  , int *LineCount  = NULL  ) ;
+int			GetObtainsStringCharPosition(			int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  , int *LineCount  = NULL  ) ;
+int			GetObtainsStringCharPosition_CharClip(	int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  , int *LineCount  = NULL  ) ;
+int			GetObtainsStringCharPosition_WordClip(	int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  , int *LineCount  = NULL  ) ;
 int			DrawObtainsBox(					int x1, int y1, int x2, int y2, int AddY, uint Color, int FillFlag ) ;
 
 
@@ -3089,13 +3102,13 @@ int			MakeGraph(							int SizeX, int SizeY, int NotUse3DFlag  = FALSE  ) ;
 int			MakeScreen(							int SizeX, int SizeY, int UseAlphaChannel  = FALSE  ) ;
 int			DerivationGraph(					int   SrcX, int   SrcY, int   Width, int   Height, int SrcGraphHandle ) ;
 int			DerivationGraphF(					float SrcX, float SrcY, float Width, float Height, int SrcGraphHandle ) ;
-int			DeleteGraph(						int GrHandle, int LogOutFlag  = FALSE  ) ;
+int			DeleteGraph(						int GrHandle ) ;
 int			DeleteSharingGraph(					int GrHandle ) ;
 int			GetGraphNum() ;
 int			FillGraph(							int GrHandle, int Red, int Green, int Blue, int Alpha  = 255  ) ;
 int			FillRectGraph(						int GrHandle, int x, int y, int Width, int Height, int Red, int Green, int Blue, int Alpha  = 255  ) ;
 int			SetGraphLostFlag(					int GrHandle, int *LostFlag ) ;
-int			InitGraph(							int LogOutFlag  = FALSE  ) ;
+int			InitGraph() ;
 int			ReloadFileGraphAll() ;
 
 
@@ -3312,7 +3325,7 @@ int			DrawBoxAA(        float x1, float y1, float x2, float y2,                 
 int			DrawFillBox(      int   x1, int   y1, int   x2, int   y2,                                         uint Color ) ;
 int			DrawLineBox(      int   x1, int   y1, int   x2, int   y2,                                         uint Color ) ;
 int			DrawCircle(       int   x,  int   y,  int   r,                                                    uint Color, int FillFlag  = TRUE , int   LineThickness  = 1     ) ;
-int			DrawCircleAA(     float x,  float y,  float r,            int posnum,                             uint Color, int FillFlag  = TRUE , float LineThickness  = 1.0f  ) ;
+int			DrawCircleAA(     float x,  float y,  float r,            int posnum,                             uint Color, int FillFlag  = TRUE , float LineThickness  = 1.0f , double Angle  = 0.0  ) ;
 int			DrawOval(         int   x,  int   y,  int   rx, int   ry,                                         uint Color, int FillFlag,        int   LineThickness  = 1     ) ;
 int			DrawOvalAA(       float x,  float y,  float rx, float ry, int posnum,                             uint Color, int FillFlag,        float LineThickness  = 1.0f  ) ;
 int			DrawOval_Rect(    int   x1, int   y1, int   x2, int   y2,                                         uint Color, int FillFlag ) ;
@@ -3617,9 +3630,10 @@ int				GetVideoMemorySize(							int *AllSize, int *FreeSize ) ;
 int				GetVideoMemorySizeEx(						ULONGLONG *TotalSize, ULONGLONG *UseSize ) ;
 int				GetRefreshRate() ;
 int				GetDisplayNum() ;
-int				GetDisplayInfo(								int DisplayIndex, int *DesktopRectX, int *DesktopRectY, int *DesktopSizeX, int *DesktopSizeY, int *IsPrimary ) ;
+int				GetDisplayInfo(								int DisplayIndex, int *DesktopRectX, int *DesktopRectY, int *DesktopSizeX, int *DesktopSizeY, int *IsPrimary, int *DesktopRefreshRate  = NULL  ) ;
 int				GetDisplayModeNum(							int DisplayIndex  = 0  ) ;
 DISPLAYMODEDATA	GetDisplayMode(								int ModeIndex, int DisplayIndex  = 0  ) ;
+DISPLAYMODEDATA	GetFullScreenUseDisplayMode() ;
 int				GetDisplayMaxResolution(					int *SizeX, int *SizeY, int DisplayIndex  = 0  ) ;
 const(COLORDATA)* GetDispColorData() ;
 int				GetMultiDrawScreenNum() ;
@@ -3844,6 +3858,24 @@ int			GraphBlendRectBlt2( int SrcGrHandle, int BlendGrHandle, int DestGrHandle, 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int			PlayMovie(							const(TCHAR)*FileName,                        int ExRate, int PlayType ) ;
 int			PlayMovieWithStrLen(				const(TCHAR)*FileName, size_t FileNameLength, int ExRate, int PlayType ) ;
 int			GetMovieImageSize_File(             const(TCHAR)*FileName,                        int *SizeX, int *SizeY ) ;
@@ -3858,7 +3890,9 @@ int			SeekMovieToGraph(					int GraphHandle, int Time ) ;
 int			SetPlaySpeedRateMovieToGraph(		int GraphHandle, double SpeedRate ) ;
 int			GetMovieStateToGraph(				int GraphHandle ) ;
 int			SetMovieVolumeToGraph(				int Volume, int GraphHandle ) ;
+int			GetMovieVolumeToGraph(				            int GraphHandle ) ;
 int			ChangeMovieVolumeToGraph(			int Volume, int GraphHandle ) ;
+int			GetMovieVolumeToGraph2(				            int GraphHandle ) ;
 const(BASEIMAGE)* GetMovieBaseImageToGraph(		int GraphHandle, int *ImageUpdateFlag  = NULL  , int ImageUpdateFlagSetOnly  = FALSE  ) ;
 int			GetMovieTotalFrameToGraph(			int GraphHandle ) ;
 int			TellMovieToGraph(					int GraphHandle ) ;
@@ -3866,6 +3900,7 @@ int			TellMovieToGraphToFrame(			int GraphHandle ) ;
 int			SeekMovieToGraphToFrame(			int GraphHandle, int Frame ) ;
 LONGLONG	GetOneFrameTimeMovieToGraph(		int GraphHandle ) ;
 int			GetLastUpdateTimeMovieToGraph(		int GraphHandle ) ;
+int			UpdateMovieToGraph(					int GraphHandle ) ;
 int			SetMovieRightImageAlphaFlag(		int Flag ) ;
 int			SetMovieColorA8R8G8B8Flag(			int Flag ) ;
 int			SetMovieUseYUVFormatSurfaceFlag(	int Flag ) ;
@@ -4194,6 +4229,8 @@ int			SetFontUseAdjustSizeFlag(               int Flag ) ;
 int			GetFontUseAdjustSizeFlag() ;
 int			SetFontOnlyDrawType(					int OnlyType ) ;
 int			GetFontOnlyDrawType() ;
+int			SetFontIgnoreLFFlag(					int Flag ) ;
+int			GetFontIgnoreLFFlag() ;
 
 
 
@@ -5216,7 +5253,7 @@ int			SaveSoftImageToJpegWithStrLen(        const(TCHAR)*FilePath, size_t FilePa
 
 
 
-int			InitSoundMem(                        int LogOutFlag  = FALSE  ) ;
+int			InitSoundMem() ;
 
 int			AddSoundData(                        int Handle  = -1  ) ;
 int			AddStreamSoundMem(                   STREAMDATA *Stream, int LoopNum,  int SoundHandle, int StreamDataType, int *CanStreamCloseFlag, int UnionHandle  = -1  ) ;
@@ -5255,7 +5292,7 @@ int			LoadSoundMemByMemImageToBufNumSitei( const(void)*FileImage, size_t FileIma
 int			LoadSoundMem2ByMemImage(             const(void)*FileImage1, size_t FileImageSize1, const(void)*FileImage2, size_t FileImageSize2 ) ;
 int			LoadSoundMemFromSoftSound(           int SoftSoundHandle, int BufferNum  = 3  ) ;
 
-int			DeleteSoundMem(                      int SoundHandle, int LogOutFlag  = FALSE  ) ;
+int			DeleteSoundMem(                      int SoundHandle ) ;
 
 int			PlaySoundMem(                        int SoundHandle, int PlayType, int TopPositionFlag  = TRUE  ) ;
 int			StopSoundMem(                                                                        int SoundHandle, int IsNextLoopEnd  = FALSE  ) ;
@@ -5942,8 +5979,8 @@ int			Live2D_Model_SetExtendRate(		int Live2DModelHandle, float ExRateX, float E
 int			Live2D_Model_SetRotate(			int Live2DModelHandle, float RotAngle ) ;
 int			Live2D_Model_Draw(				int Live2DModelHandle ) ;
 
-int			Live2D_Model_StartMotion(				int Live2DModelHandle, const(TCHAR)*group,						int no ) ;
-int			Live2D_Model_StartMotionWithStrLen(		int Live2DModelHandle, const(TCHAR)*group, size_t groupLength,	int no ) ;
+int			Live2D_Model_StartMotion(				int Live2DModelHandle, const(TCHAR)*group,						int no, float fadeInSeconds  = -1.0f  , float fadeOutSeconds  = -1.0f  , int isLoopFadeIn  = TRUE  ) ;
+int			Live2D_Model_StartMotionWithStrLen(		int Live2DModelHandle, const(TCHAR)*group, size_t groupLength,	int no, float fadeInSeconds  = -1.0f  , float fadeOutSeconds  = -1.0f  , int isLoopFadeIn  = TRUE  ) ;
 int			Live2D_Model_GetLastPlayMotionNo(		int Live2DModelHandle ) ;
 int			Live2D_Model_IsMotionFinished(			int Live2DModelHandle ) ;
 float		Live2D_Model_GetMotionPlayTime(			int Live2DModelHandle ) ;
