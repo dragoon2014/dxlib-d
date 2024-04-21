@@ -9,7 +9,7 @@ enum NULL = null;
 alias ubyte BYTE;
 alias ushort WORD;
 alias int BOOL, LONG;
-alias uint DWORD, UINT;
+alias uint DWORD, UINT, ULONG;
 alias long LONGLONG, LONG_PTR;
 alias ulong ULONGLONG, UINT_PTR;
 
@@ -55,6 +55,11 @@ struct _GUID{
     ushort Data3;
     ubyte[8] Data4;
 } alias _GUID GUID;
+
+struct _LUID{
+    ULONG LowPart;
+    LONG HighPart;
+} alias _LUID LUID;
 
 struct tagBITMAPINFO{
     BITMAPINFOHEADER bmiHeader;
