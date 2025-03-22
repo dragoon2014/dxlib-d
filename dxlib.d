@@ -97,22 +97,9 @@ struct tagBITMAPINFOHEADER{
 
 
 
-enum DXLIB_VERSION = 0x324d;
-enum DXLIB_VERSION_STR_T = _T( "3.24d" );
-enum DXLIB_VERSION_STR_W = "3.24d"w;
-
-
-
-
-
-
-
-
-
-
-
-
-
+enum DXLIB_VERSION = 0x324f;
+enum DXLIB_VERSION_STR_T = _T( "3.24f" );
+enum DXLIB_VERSION_STR_W = "3.24f"w;
 
 
 
@@ -186,7 +173,7 @@ enum DEFAULT_FAR = (20000.0F);
 enum DX_DEFAULT_FONT_HANDLE = (-2);
 
 enum DEFAULT_FONT_SIZE = (16);
-enum DEFAULT_FONT_THINCK = (6);
+enum DEFAULT_FONT_THICKNESS = (6);
 enum DEFAULT_FONT_TYPE = ( DX_FONTTYPE_NORMAL );
 enum DEFAULT_FONT_EDGESIZE = (1);
 
@@ -2016,7 +2003,7 @@ int			GetMonitorDpi(					int *XDpi, int *YDpi, int MonitorIndex  = -1  ) ;
 int			GetNoActiveState(				int ResetFlag  = TRUE  ) ;
 int			GetMouseDispFlag() ;
 int			GetAlwaysRunFlag() ;
-int			_GetSystemInfo(					int *DxLibVer , int *DirectXVer , int *WindowsVer ) ;
+int			GetSystemInfo_(					int *DxLibVer , int *DirectXVer , int *WindowsVer ) ;
 int			GetPcInfo(						TCHAR *OSString , TCHAR *DirectXString , TCHAR *CPUString , int *CPUSpeed /* 単位MHz */ , double *FreeMemorySize /* 単位MByte */ , double *TotalMemorySize , TCHAR *VideoDriverFileName , TCHAR *VideoDriverString , double *FreeVideoMemorySize /* 単位MByte */ , double *TotalVideoMemorySize ) ;
 int			GetWindowOSVersion() ;
 int			GetUseMMXFlag() ;
@@ -2320,6 +2307,7 @@ const(void)*	GetUseDirect3D11BackBufferRenderTargetView() ;
 const(void)*	GetUseDirect3D11DepthStencilTexture2D() ;
 int			SetDrawScreen_ID3D11RenderTargetView(			const(void)*pID3D11RenderTargetView, const(void)*pID3D11DepthStencilView  = NULL  ) ;
 int			RefreshDxLibDirect3DSetting() ;
+int			SetUseDirect3D11SwapEffect(						int SwapEffect /* DX_SWAP_EFFECT_DISCARD 等 */ ) ;
 
 int			SetUseMediaFoundationFlag(						int Flag ) ;
 
@@ -2922,13 +2910,13 @@ int			GetOneCharWait(		TCHAR *CharBuffer, int DeleteFlag ) ;
 int			GetCtrlCodeCmp(		TCHAR Char ) ;
 
 
-
 int			DrawIMEInputString(				int x, int y,                                 int SelectStringNum , int DrawCandidateList  = TRUE  ) ;
 int			DrawIMEInputExtendString(		int x, int y, double ExRateX, double ExRateY, int SelectStringNum , int DrawCandidateList  = TRUE  ) ;
 int			SetUseIMEFlag(					int UseFlag ) ;
 int			GetUseIMEFlag() ;
 int			SetInputStringMaxLengthIMESync(	int Flag ) ;
 int			SetIMEInputStringMaxLength(		int Length ) ;
+
 
 
 int			GetStringPoint(				const(TCHAR)*String,                      int Point ) ;
@@ -2947,6 +2935,7 @@ int			GetObtainsStringCharPosition(			int x, int y, int AddY, const(TCHAR)*Strin
 int			GetObtainsStringCharPosition_CharClip(	int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  , int *LineCount  = NULL  ) ;
 int			GetObtainsStringCharPosition_WordClip(	int x, int y, int AddY, const(TCHAR)*String, int StrLen, int *PosX, int *PosY, int FontHandle  = -1  , int *LineCount  = NULL  ) ;
 int			DrawObtainsBox(					int x1, int y1, int x2, int y2, int AddY, uint Color, int FillFlag ) ;
+
 
 
 int			InputStringToCustom(			int x, int y, size_t BufLength, TCHAR *StrBuffer, int CancelValidFlag, int SingleCharOnlyFlag, int NumCharOnlyFlag, int DoubleCharOnlyFlag  = FALSE  , int EnableNewLineFlag  = FALSE  , int DisplayCandidateList  = TRUE  ) ;
@@ -3325,10 +3314,10 @@ int			ResetGraphPalette(				int GrHandle ) ;
 
 int			DrawLine(         int   x1, int   y1, int   x2, int   y2,                                         uint Color, int   Thickness  = 1     ) ;
 int			DrawLineAA(       float x1, float y1, float x2, float y2,                                         uint Color, float Thickness  = 1.0f  ) ;
-int			DrawBox(          int   x1, int   y1, int   x2, int   y2,                                         uint Color, int FillFlag ) ;
+int			DrawBox(          int   x1, int   y1, int   x2, int   y2,                                         uint Color, int FillFlag, int   LineThickness  = 1     ) ;
 int			DrawBoxAA(        float x1, float y1, float x2, float y2,                                         uint Color, int FillFlag, float LineThickness  = 1.0f  ) ;
 int			DrawFillBox(      int   x1, int   y1, int   x2, int   y2,                                         uint Color ) ;
-int			DrawLineBox(      int   x1, int   y1, int   x2, int   y2,                                         uint Color ) ;
+int			DrawLineBox(      int   x1, int   y1, int   x2, int   y2,                                         uint Color, int LineThickness  = 1  ) ;
 int			DrawCircle(       int   x,  int   y,  int   r,                                                    uint Color, int FillFlag  = TRUE , int   LineThickness  = 1     ) ;
 int			DrawCircleAA(     float x,  float y,  float r,            int posnum,                             uint Color, int FillFlag  = TRUE , float LineThickness  = 1.0f , double Angle  = 0.0  ) ;
 int			DrawOval(         int   x,  int   y,  int   rx, int   ry,                                         uint Color, int FillFlag,        int   LineThickness  = 1     ) ;
@@ -3359,12 +3348,16 @@ int			DrawTriangle3DD( VECTOR_D Pos1,   VECTOR_D Pos2, VECTOR_D Pos3,           
 int			DrawCube3D(      VECTOR   Pos1,   VECTOR   Pos2,                            uint DifColor, uint SpcColor, int FillFlag ) ;
 int			DrawCube3DD(     VECTOR_D Pos1,   VECTOR_D Pos2,                            uint DifColor, uint SpcColor, int FillFlag ) ;
 int			DrawCubeSet3D(   CUBEDATA *CubeDataArray, int Num, int FillFlag ) ;
-int			DrawSphere3D(    VECTOR   CenterPos,                  float  r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
-int			DrawSphere3DD(   VECTOR_D CenterPos,                  double r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
-int			DrawCapsule3D(   VECTOR   Pos1,   VECTOR   Pos2,      float  r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
-int			DrawCapsule3DD(  VECTOR_D Pos1,   VECTOR_D Pos2,      double r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
-int			DrawCone3D(      VECTOR   TopPos, VECTOR   BottomPos, float  r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
-int			DrawCone3DD(     VECTOR_D TopPos, VECTOR_D BottomPos, double r, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawSphere3D(    VECTOR   CenterPos,                  float  r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawSphere3DD(   VECTOR_D CenterPos,                  double r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCapsule3D(   VECTOR   Pos1,   VECTOR   Pos2,      float  r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCapsule3DD(  VECTOR_D Pos1,   VECTOR_D Pos2,      double r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCylinder3D(  VECTOR   Pos1,   VECTOR   Pos2,      float  r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCylinder3DD( VECTOR_D Pos1,   VECTOR_D Pos2,      double r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawTube3D(      VECTOR   Pos1,   VECTOR   Pos2,      float  r1, float  r2, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawTube3DD(     VECTOR_D Pos1,   VECTOR_D Pos2,      double r1, double r2, int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCone3D(      VECTOR   TopPos, VECTOR   BottomPos, float  r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
+int			DrawCone3DD(     VECTOR_D TopPos, VECTOR_D BottomPos, double r,             int DivNum, uint DifColor, uint SpcColor, int FillFlag ) ;
 
 
 int			LoadGraphScreen(           int x, int y, const(TCHAR)*GraphName,                         int TransFlag ) ;
@@ -3383,7 +3376,7 @@ int			DrawTurnGraph(            int x, int y,                                   
 int			DrawReverseGraph(         int x, int y,                                                                 int GrHandle, int TransFlag, int ReverseXFlag  = FALSE  , int ReverseYFlag  = FALSE  ) ;
 
 int			DrawGraphF(               float xf, float yf,                                                                       int GrHandle, int TransFlag ) ;
-int			DrawExtendGraphF(         float x1f, float y1f, float x2f, float y2,                                                int GrHandle, int TransFlag ) ;
+int			DrawExtendGraphF(         float x1f, float y1f, float x2f, float y2f,                                               int GrHandle, int TransFlag ) ;
 int			DrawRotaGraphF(           float xf, float yf,                       double ExRate,                    double Angle, int GrHandle, int TransFlag, int ReverseXFlag  = FALSE  , int ReverseYFlag  = FALSE  ) ;
 int			DrawRotaGraph2F(          float xf, float yf, float cxf, float cyf, double ExtRate,                   double Angle, int GrHandle, int TransFlag, int ReverseXFlag  = FALSE  , int ReverseYFlag  = FALSE  ) ;
 int			DrawRotaGraph3F(          float xf, float yf, float cxf, float cyf, double ExtRateX, double ExtRateY, double Angle, int GrHandle, int TransFlag, int ReverseXFlag  = FALSE  , int ReverseYFlag  = FALSE  ) ;
@@ -3519,6 +3512,7 @@ int			SetWriteZBuffer3D(					int Flag ) ;
 int			SetZBufferCmpType3D(				int CmpType /* DX_CMP_NEVER 等 */ ) ;
 int			SetZBias3D(							int Bias ) ;
 int			SetDrawZ(							float Z ) ;
+int			SetUseReversedZ(					int Flag ) ;
 
 int			SetDrawArea(						int x1, int y1, int x2, int y2 ) ;
 int			GetDrawArea(						RECT *Rect ) ;
@@ -3590,6 +3584,17 @@ int			SetFogStartEnd(						float  start, float  end ) ;
 int			GetFogStartEnd(						float *start, float *end ) ;
 int			SetFogDensity(						float density ) ;
 float		GetFogDensity() ;
+
+int			SetVerticalFogEnable(				int Flag ) ;
+int			GetVerticalFogEnable() ;
+int			SetVerticalFogMode(					int Mode /* DX_FOGMODE_NONE 等 */ ) ;
+int			GetVerticalFogMode() ;
+int			SetVerticalFogColor(				int  r, int  g, int  b ) ;
+int			GetVerticalFogColor(				int *r, int *g, int *b ) ;
+int			SetVerticalFogStartEnd(				float  start, float  end ) ;
+int			GetVerticalFogStartEnd(				float *start, float *end ) ;
+int			SetVerticalFogDensity(				float start, float density ) ;
+int			GetVerticalFogDensity(				float *start, float *density ) ;
 
 
 
@@ -3995,6 +4000,7 @@ int			SetMaterialParam(			MATERIALPARAM Material ) ;
 int			SetUseSpecular(				int UseFlag ) ;
 int			SetGlobalAmbientLight(		COLOR_F Color ) ;
 int			SetUseLightAngleAttenuation( int UseFlag ) ;
+int			SetUseHalfLambertLighting(	 int UseFlag ) ;
 
 int			ChangeLightTypeDir(			VECTOR Direction ) ;
 int			ChangeLightTypeSpot(		VECTOR Position, VECTOR Direction, float OutAngle, float InAngle, float Range, float Atten0, float Atten1, float Atten2 ) ;
@@ -5560,6 +5566,7 @@ int			MV1LoadModelWithStrLen(				const(TCHAR)*FileName, size_t FileNameLength ) 
 int			MV1LoadModelFromMem(				const(void)*FileImage, int FileSize, int  function( const(TCHAR)*FilePath, void **FileImageAddr, int *FileSize, void *FileReadFuncData )FileReadFunc, int  function( void *MemoryAddr, void *FileReadFuncData )FileReleaseFunc, void *FileReadFuncData  = NULL  ) ;
 int			MV1DuplicateModel(					int SrcMHandle ) ;
 int			MV1CreateCloneModel(				int SrcMHandle ) ;
+int			MV1CreateSimpleModel(				VERTEX3D *Vertex, int VertexNum, uint *Index, int IndexNum, MATERIALPARAM *Material, int GrHandle ) ;
 
 int			MV1DeleteModel(						int MHandle ) ;
 int			MV1InitModel() ;
@@ -5737,6 +5744,7 @@ int			MV1SetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex, int TexIn
 int			MV1GetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex ) ;
 int			MV1SetMaterialSpcMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
 int			MV1GetMaterialSpcMapTexture(		int MHandle, int MaterialIndex ) ;
+int			MV1SetMaterialNormalMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
 int			MV1GetMaterialNormalMapTexture(		int MHandle, int MaterialIndex ) ;
 int			MV1SetMaterialDifGradTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;
 int			MV1GetMaterialDifGradTexture(		int MHandle, int MaterialIndex ) ;
@@ -5800,6 +5808,10 @@ int			MV1SetTextureBumpImageNextPixelLength(	int MHandle, int TexIndex, float Le
 float		MV1GetTextureBumpImageNextPixelLength(	int MHandle, int TexIndex ) ;
 int			MV1SetTextureSampleFilterMode(			int MHandle, int TexIndex, int FilterMode ) ;
 int			MV1GetTextureSampleFilterMode(			int MHandle, int TexIndex ) ;
+int			MV1AddTexture(							int MHandle, const(TCHAR)*Name,                    const(TCHAR)*ColorFilePath,                             const(TCHAR)*AlphaFilePath  = NULL  ,                                                  void *ColorFileImage  = NULL  , void *AlphaFileImage  = NULL  , int AddressModeU  = DX_TEXADDRESS_WRAP  , int AddressModeV  = DX_TEXADDRESS_WRAP  , int FilterMode  = DX_DRAWMODE_ANISOTROPIC  , int BumpImageFlag  = FALSE  , float BumpImageNextPixelLength  = 0.1f  , int ReverseFlag  = FALSE  , int Bmp32AllZeroAlphaToXRGB8Flag  = FALSE  ) ;
+int			MV1AddTextureWithStrLen(				int MHandle, const(TCHAR)*Name, size_t NameLength, const(TCHAR)*ColorFilePath, size_t ColorFilePathLength, const(TCHAR)*AlphaFilePath  = NULL  , size_t AlphaFilePathLength  = 0  , void *ColorFileImage  = NULL  , void *AlphaFileImage  = NULL  , int AddressModeU  = DX_TEXADDRESS_WRAP  , int AddressModeV  = DX_TEXADDRESS_WRAP  , int FilterMode  = DX_DRAWMODE_ANISOTROPIC  , int BumpImageFlag  = FALSE  , float BumpImageNextPixelLength  = 0.1f  , int ReverseFlag  = FALSE  , int Bmp32AllZeroAlphaToXRGB8Flag  = FALSE  ) ;
+int			MV1AddTextureGraphHandle(				int MHandle, const(TCHAR)*Name,                    int GrHandle, int SemiTransFlag,                                                                                                                                                                                                                         int AddressModeU  = DX_TEXADDRESS_WRAP  , int AddressModeV  = DX_TEXADDRESS_WRAP  , int FilterMode  = DX_DRAWMODE_ANISOTROPIC  ) ;
+
 int			MV1LoadTexture(							const(TCHAR)*FilePath                        ) ;
 int			MV1LoadTextureWithStrLen(				const(TCHAR)*FilePath, size_t FilePathLength ) ;
 
