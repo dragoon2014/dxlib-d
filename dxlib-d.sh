@@ -32,4 +32,6 @@ convert_to_D(){
 echo "module dxlib;" > "$dst"
 cat template_winapi.d >> "$dst"
 convert_to_D DxLib.h >> $dst
+echo "version(Windows){" >> $dst
 convert_to_D DxFunctionWin.h >> $dst
+echo "}" >> $dst

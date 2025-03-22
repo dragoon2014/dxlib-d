@@ -5612,6 +5612,7 @@ float		Live2D_Model_GetCanvasHeight(						int Live2DModelHandle ) ;
 
 
 
+version(Windows){
 
 
 
@@ -6096,3 +6097,4 @@ int			PlayMusicByResourceWithStrLen(		const(TCHAR)*ResourceName, size_t Resource
 
 
 
+}
