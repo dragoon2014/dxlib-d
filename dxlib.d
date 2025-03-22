@@ -1273,7 +1273,7 @@ enum WAVE_FORMAT_PCM = 1;
 
 
 
-extern(C++, DxLib)
+extern(C++, "DxLib")
 {
 
 
@@ -1976,6 +1976,7 @@ struct tagIPDATA_IPv6
 
 
 
+}
 
 
 
@@ -1984,466 +1985,12 @@ struct tagIPDATA_IPv6
 
 
 
-int				GetResourceInfo(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            void **DataPointerP , size_t *DataSizeP ) ;
-int				GetResourceInfoWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, void **DataPointerP , size_t *DataSizeP ) ;
-const(TCHAR)*	GetResourceIDString(		int ResourceID ) ;
 
 
-int			GetWindowCRect(					RECT *RectBuf ) ;
-int			GetWindowClientRect(			RECT *RectBuf ) ;
-int			GetWindowFrameRect(				RECT *RectBuf ) ;
-int			GetWindowActiveFlag() ;
-int			GetWindowMinSizeFlag() ;
-int			GetWindowMaxSizeFlag() ;
-int			GetActiveFlag() ;
-HWND		GetMainWindowHandle() ;
-int			GetWindowModeFlag() ;
-int			GetDefaultState(				int *SizeX, int *SizeY, int *ColorBitDepth, int *RefreshRate  = NULL  , int *LeftTopX  = NULL  , int *LeftTopY  = NULL  , int *PixelSizeX  = NULL  , int *PixelSizeY  = NULL  , int *XDpi  = NULL  , int *YDpi  = NULL  ) ;
-int			GetMonitorDpi(					int *XDpi, int *YDpi, int MonitorIndex  = -1  ) ;
-int			GetNoActiveState(				int ResetFlag  = TRUE  ) ;
-int			GetMouseDispFlag() ;
-int			GetAlwaysRunFlag() ;
-int			GetSystemInfo_(					int *DxLibVer , int *DirectXVer , int *WindowsVer ) ;
-int			GetPcInfo(						TCHAR *OSString , TCHAR *DirectXString , TCHAR *CPUString , int *CPUSpeed /* 単位MHz */ , double *FreeMemorySize /* 単位MByte */ , double *TotalMemorySize , TCHAR *VideoDriverFileName , TCHAR *VideoDriverString , double *FreeVideoMemorySize /* 単位MByte */ , double *TotalVideoMemorySize ) ;
-int			GetWindowOSVersion() ;
-int			GetUseMMXFlag() ;
-int			GetUseSSEFlag() ;
-int			GetUseSSE2Flag() ;
-int			GetWindowCloseFlag() ;
-HINSTANCE	GetTaskInstance() ;
-int			GetUseWindowRgnFlag() ;
-int			GetWindowSizeChangeEnableFlag(	int *FitScreen  = NULL  ) ;
-double		GetWindowSizeExtendRate(		double *ExRateX  = NULL  , double *ExRateY  = NULL  ) ;
-int			GetWindowSize(					int *Width, int *Height ) ;
-int			GetWindowEdgeWidth(				int *LeftWidth, int *RightWidth, int *TopWidth, int *BottomWidth ) ;
-int			GetWindowPosition(				int *x, int *y ) ;
-int			GetWindowUserCloseFlag(			int StateResetFlag  = FALSE  ) ;
-int			CheckWindowMaximizeButtonInput(	int StateResetFlag  = TRUE  ) ;
-int			GetNotDrawFlag() ;
-int			GetPaintMessageFlag() ;
-int			GetValidHiPerformanceCounter() ;
-TCHAR		GetInputSystemChar(				int DeleteFlag ) ;
 
 
-int			ChangeWindowMode(						int Flag ) ;
-int			SetUseCharSet(							int CharSet /* = DX_CHARSET_SHFTJIS 等 */ ) ;
-int			LoadPauseGraph(							const(TCHAR)*FileName                        ) ;
-int			LoadPauseGraphWithStrLen(				const(TCHAR)*FileName, size_t FileNameLength ) ;
-int			LoadPauseGraphFromMem(					const(void)*MemImage , int MemImageSize ) ;
-int			SetActiveStateChangeCallBackFunction(	int  function( int ActiveState , void *UserData )CallBackFunction , void *UserData ) ;
-int			SetWindowText(							const(TCHAR)*WindowText                          ) ;
-int			SetWindowTextDX(						const(TCHAR)*WindowText                          ) ;
-int			SetWindowTextWithStrLen(				const(TCHAR)*WindowText, size_t WindowTextLength ) ;
-int			SetMainWindowText(						const(TCHAR)*WindowText                          ) ;
-int			SetMainWindowTextWithStrLen(			const(TCHAR)*WindowText, size_t WindowTextLength ) ;
-int			SetMainWindowClassName(					const(TCHAR)*ClassName                         ) ;
-int			SetMainWindowClassNameWithStrLen(		const(TCHAR)*ClassName, size_t ClassNameLength ) ;
-int			SetWindowIconID(						int ID ) ;
-int			SetWindowIconHandle(					HICON Icon ) ;
-int			SetUseASyncChangeWindowModeFunction(	int Flag , void  function( void * )CallBackFunction , void *Data ) ;
-int			SetShutdownCallbackFunction(			void  function( void * )CallbackFunction, void *Data, const(TCHAR)*Message ) ;
-int			SetWindowStyleMode(						int Mode ) ;
-int			SetWindowZOrder(						int ZType /* = DX_WIN_ZTYPE_TOP 等 */ , int WindowActivateFlag  = TRUE  ) ;
-int			SetWindowSizeChangeEnableFlag(			int Flag, int FitScreen  = TRUE  ) ;
-int			SetWindowSizeExtendRate(				double ExRateX, double ExRateY  = -1.0  ) ;
-int			SetWindowSize(							int Width, int Height ) ;
-int			SetWindowMaxSize(						int MaxWidth, int MaxHeight ) ;
-int			SetWindowMinSize(						int MinWidth, int MinHeight ) ;
-int			SetWindowPosition(						int x, int y ) ;
-int			SetSysCommandOffFlag(					int Flag , const(TCHAR)*HookDllPath  = NULL  ) ;
-int			SetSysCommandOffFlagWithStrLen(			int Flag , const(TCHAR)*HookDllPath  = NULL  , size_t HookDllPathLength  = 0  ) ;
-int			SetWindowMaximizeButtonBehavior(		int BehaviorType ) ;
-int			SetHookWinProc(							WNDPROC WinProc ) ;
-int			SetUseHookWinProcReturnValue(			int UseFlag ) ;
-int			SetDoubleStartValidFlag(				int Flag ) ;
-int			CheckDoubleStart() ;
-int			AddMessageTakeOverWindow(				HWND Window ) ;
-int			SubMessageTakeOverWindow(				HWND Window ) ;
-
-int			SetWindowInitPosition(					int x , int y ) ;
-int			SetNotWinFlag(							int Flag ) ;
-int			SetNotDrawFlag(							int Flag ) ;
-int			SetNotSoundFlag(						int Flag ) ;
-int			SetNotInputFlag(						int Flag ) ;
-int			SetDialogBoxHandle(						HWND WindowHandle ) ;
-int			SetWindowVisibleFlag(					int Flag ) ;
-int			SetWindowMinimizeFlag(					int Flag ) ;
-int			SetWindowUserCloseEnableFlag(			int Flag ) ;
-int			SetUseBorderlessWindowFlag(				int Flag ) ;
-int			SetDxLibEndPostQuitMessageFlag(			int Flag ) ;
-int			SetUserWindow(							HWND WindowHandle ) ;
-int			SetUserChildWindow(						HWND WindowHandle ) ;
-int			SetUserWindowMessageProcessDXLibFlag(	int Flag ) ;
-int			SetUseFPUPreserveFlag(					int Flag ) ;
-int			SetValidMousePointerWindowOutClientAreaMoveFlag( int Flag ) ;
-int			SetUseBackBufferTransColorFlag(			int Flag ) ;
-int			SetUseUpdateLayerdWindowFlag(			int Flag ) ;
-int			SetUseMouseEventTransparentWindowFlag(	int Flag ) ;
-int			SetResourceModule(						HMODULE ResourceModule ) ;
-int			SetUseDxLibWM_PAINTProcess(				int Flag ) ;
-int			SetWindows10_WM_CHAR_CancelTime(		int MilliSecond ) ;
-int			SetUseWindows10_WM_CHAR_CancelTime(		int Flag ) ;
-
-
-int			SetDragFileValidFlag(		int Flag ) ;
-int			DragFileInfoClear() ;
-int			GetDragFilePath(			TCHAR *FilePathBuffer, int FilePathBufferBytes  = -1  ) ;
-int			GetDragFileNum() ;
-
-
-HRGN		CreateRgnFromGraph(			int Width , int Height , const(void)*MaskData , int Pitch , int Byte ) ;
-HRGN		CreateRgnFromBaseImage(		BASEIMAGE *BaseImage, int TransColorR, int TransColorG, int TransColorB ) ;
-int			SetWindowRgnGraph(			 const(TCHAR)*FileName                        ) ;
-int			SetWindowRgnGraphWithStrLen( const(TCHAR)*FileName, size_t FileNameLength ) ;
-int			UpdateTransColorWindowRgn() ;
-
-
-int			SetupToolBar(				const(TCHAR)*BitmapName,                          int DivNum, int ResourceID  = -1  ) ;
-int			SetupToolBarWithStrLen(		const(TCHAR)*BitmapName, size_t BitmapNameLength, int DivNum, int ResourceID  = -1  ) ;
-int			AddToolBarButton(			int Type /* TOOLBUTTON_TYPE_NORMAL 等 */ , int State /* TOOLBUTTON_STATE_ENABLE 等 */ , int ImageIndex, int ID ) ;
-int			AddToolBarSep() ;
-int			GetToolBarButtonState(		int ID ) ;
-int			SetToolBarButtonState(		int ID , int State /* TOOLBUTTON_STATE_ENABLE 等 */ ) ;
-int			DeleteAllToolBarButton() ;
-
-
-int			SetUseMenuFlag(						int Flag ) ;
-int			SetUseKeyAccelFlag(					int Flag ) ;
-
-int			AddKeyAccel(						const(TCHAR)*ItemName,                        int ItemID , int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
-int			AddKeyAccelWithStrLen(				const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID , int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
-int			AddKeyAccel_Name(					const(TCHAR)*ItemName,                        int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
-int			AddKeyAccel_NameWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
-int			AddKeyAccel_ID(						int ItemID, int KeyCode, int CtrlFlag, int AltFlag, int ShiftFlag ) ;
-int			ClearKeyAccel() ;
-
-int			AddMenuItem(						int AddType /* MENUITEM_ADD_CHILD等 */ , const(TCHAR)*ItemName,                        int ItemID, int SeparatorFlag, const(TCHAR)*NewItemName  = NULL  ,                                                int NewItemID  = -1  ) ;
-int			AddMenuItemWithStrLen(				int AddType /* MENUITEM_ADD_CHILD等 */ , const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int SeparatorFlag, const(TCHAR)*NewItemName  = NULL  , size_t NewItemNameLength  = 0  , int NewItemID  = -1  ) ;
-int			DeleteMenuItem(						const(TCHAR)*ItemName,                        int ItemID ) ;
-int			DeleteMenuItemWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID ) ;
-int			CheckMenuItemSelect(				const(TCHAR)*ItemName,                        int ItemID ) ;
-int			CheckMenuItemSelectWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID ) ;
-int			SetMenuItemEnable(					const(TCHAR)*ItemName,                        int ItemID, int EnableFlag ) ;
-int			SetMenuItemEnableWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int EnableFlag ) ;
-int			SetMenuItemMark(					const(TCHAR)*ItemName,                        int ItemID, int Mark ) ;
-int			SetMenuItemMarkWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int Mark ) ;
-int			CheckMenuItemSelectAll() ;
-
-int			AddMenuItem_Name(					const(TCHAR)*ParentItemName,                              const(TCHAR)*NewItemName                           ) ;
-int			AddMenuItem_NameWithStrLen(			const(TCHAR)*ParentItemName, size_t ParentItemNameLength, const(TCHAR)*NewItemName, size_t NewItemNameLength ) ;
-int			AddMenuLine_Name(					const(TCHAR)*ParentItemName ) ;
-int			AddMenuLine_NameWithStrLen(			const(TCHAR)*ParentItemName, size_t ParentItemNameLength ) ;
-int			InsertMenuItem_Name(				const(TCHAR)*ItemName,                        const(TCHAR)*NewItemName                           ) ;
-int			InsertMenuItem_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, const(TCHAR)*NewItemName, size_t NewItemNameLength ) ;
-int			InsertMenuLine_Name(				const(TCHAR)*ItemName                        ) ;
-int			InsertMenuLine_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength ) ;
-int			DeleteMenuItem_Name(				const(TCHAR)*ItemName                        ) ;
-int			DeleteMenuItem_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength ) ;
-int			CheckMenuItemSelect_Name(			const(TCHAR)*ItemName                        ) ;
-int			CheckMenuItemSelect_NameWithStrLen(	const(TCHAR)*ItemName, size_t ItemNameLength ) ;
-int			SetMenuItemEnable_Name(				const(TCHAR)*ItemName,                        int EnableFlag ) ;
-int			SetMenuItemEnable_NameWithStrLen(	const(TCHAR)*ItemName, size_t ItemNameLength, int EnableFlag ) ;
-int			SetMenuItemMark_Name(				const(TCHAR)*ItemName,                        int Mark ) ;
-int			SetMenuItemMark_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int Mark ) ;
-
-int			AddMenuItem_ID(						int ParentItemID, const(TCHAR)*NewItemName,                           int NewItemID  = -1  ) ;
-int			AddMenuItem_IDWithStrLen(			int ParentItemID, const(TCHAR)*NewItemName, size_t NewItemNameLength, int NewItemID  = -1  ) ;
-int			AddMenuLine_ID(						int ParentItemID ) ;
-int			InsertMenuItem_ID(					int ItemID, int NewItemID ) ;
-int			InsertMenuLine_ID(					int ItemID, int NewItemID ) ;
-int			DeleteMenuItem_ID(					int ItemID ) ;
-int			CheckMenuItemSelect_ID(				int ItemID ) ;
-int			SetMenuItemEnable_ID(				int ItemID, int EnableFlag ) ;
-int			SetMenuItemMark_ID(					int ItemID, int Mark ) ;
-
-int			DeleteMenuItemAll() ;
-int			ClearMenuItemSelect() ;
-int			GetMenuItemID(						const(TCHAR)*ItemName                        ) ;
-int			GetMenuItemIDDX(					const(TCHAR)*ItemName                        ) ;
-int			GetMenuItemIDWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength ) ;
-int			GetMenuItemName(					int ItemID, TCHAR *NameBuffer ) ;
-int 		LoadMenuResource(					int MenuResourceID ) ;
-int			SetMenuItemSelectCallBackFunction(	void  function( const(TCHAR)*ItemName, int ItemID )CallBackFunction ) ;
-
-int			SetWindowMenu(						int MenuID, int  function( WORD ID )MenuProc ) ;
-int			SetDisplayMenuFlag(					int Flag ) ;
-int			GetDisplayMenuFlag() ;
-int			GetUseMenuFlag() ;
-int			SetAutoMenuDisplayFlag(				int Flag ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int			GetWinSockLastError() ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int			SetUseTSFFlag( int UseFlag ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int			SetKeyExclusiveCooperativeLevelFlag(	int Flag ) ;
-int			SetKeyboardNotDirectInputFlag(			int Flag ) ;
-int			SetUseDirectInputFlag(					int UseFlag ) ;
-int			SetDirectInputMouseMode(				int Mode ) ;
-int			SetUseXInputFlag(						int Flag ) ;
-int			SetUseXboxControllerDirectInputFlag(	int Flag ) ;
-int			GetJoypadGUID(							int PadIndex, GUID *GuidInstanceBuffer, GUID *GuidProductBuffer  = NULL  ) ;
-int			GetJoypadName(							int InputType, TCHAR *InstanceNameBuffer, TCHAR *ProductNameBuffer ) ;
-int			ConvertKeyCodeToVirtualKey(				int KeyCode ) ;
-int			ConvertVirtualKeyToKeyCode(				int VirtualKey ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int			LoadGraphToResource(				int ResourceID ) ;
-int			LoadDivGraphToResource(				int ResourceID, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
-int			LoadDivGraphFToResource(			int ResourceID, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
-int			LoadGraphToResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
-int			LoadGraphToResourceWithStrLen(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
-int			LoadDivGraphToResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
-int			LoadDivGraphToResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
-int			LoadDivGraphFToResource(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
-int			LoadDivGraphFToResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
-int			LoadGraphToResource2(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
-int			LoadGraphToResourceWithStrLen2(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
-int			LoadDivGraphToResource2(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
-int			LoadDivGraphToResourceWithStrLen2(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
-int			LoadDivGraphFToResource2(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
-int			LoadDivGraphFToResourceWithStrLen2(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
-int			CreateGraphFromID3D11Texture2D(     const(void)*pID3D11Texture2D ) ;
-
-
-const(void)*	GetGraphID3D11Texture2D(		int GrHandle ) ;
-const(void)*	GetGraphID3D11RenderTargetView(	int GrHandle ) ;
-const(void)*	GetGraphID3D11DepthStencilView(	int GrHandle ) ;
-
-
-int			BltBackScreenToWindow(			HWND Window, int ClientX, int ClientY ) ;
-int			BltRectBackScreenToWindow(		HWND Window, RECT BackScreenRect, RECT WindowClientRect ) ;
-int			SetScreenFlipTargetWindow(		HWND TargetWindow, double ScaleX  = 1.0  , double ScaleY  = 1.0  ) ;
-int			GetDesktopScreenGraph(			int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
-void *		GetDesktopScreenGraphMemImage(	int x1, int y1, int x2, int y2, int *Width, int *Height, int *Stride, int ColorBitDepth  = 32  ) ;
-int			GetOtherWindowGraph(			HWND Window, int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
-
-
-int			SetMultiThreadFlag(								int Flag ) ;
-int			SetUseDirectDrawDeviceIndex(					int Index ) ;
-int			SetAeroDisableFlag(								int Flag ) ;
-int			SetUseDirect3D9Ex(								int Flag ) ;
-int			SetUseDirect3D11(								int Flag ) ;
-int			SetUseDirect3D11MinFeatureLevel(				int Level /* DX_DIRECT3D_11_FEATURE_LEVEL_10_0 など */ ) ;
-int			SetUseDirect3D11WARPDriver(						int Flag ) ;
-int			SetUseDirect3DVersion(							int Version /* DX_DIRECT3D_9 など */ ) ;
-int			GetUseDirect3DVersion() ;
-int			GetUseDirect3D11FeatureLevel() ;
-int			SetUseDirect3D11AdapterIndex(					int Index ) ;
-int			SetUseDirect3D11AdapterLUID(					LUID *UseLUID ) ;
-LUID		GetUseDirect3D11AdapterLUID() ;
-int			SetUseDirect3D11BGRASupport(					int Flag ) ;
-int			GetUseDirect3D11BGRASupport() ;
-int			SetUseDirectDrawFlag(							int Flag ) ;
-int			SetUseGDIFlag(									int Flag ) ;
-int			GetUseGDIFlag() ;
-int			SetDDrawUseGuid(								const(GUID)*Guid ) ;
-const(void)*	GetUseDDrawObj() ;
-const(GUID)*	GetDirectDrawDeviceGUID(						int Number ) ;
-int			GetDirectDrawDeviceDescription(					int Number, char *StringBuffer ) ;
-int			GetDirectDrawDeviceNum() ;
-const(void)*	GetUseDirect3DDevice9() ;
-const(void)*	GetUseDirect3D9BackBufferSurface() ;
-const(void)*	GetUseDirect3D11Device() ;
-const(void)*	GetUseDirect3D11DeviceContext() ;
-const(void)*	GetUseDirect3D11BackBufferTexture2D() ;
-const(void)*	GetUseDirect3D11BackBufferRenderTargetView() ;
-const(void)*	GetUseDirect3D11DepthStencilTexture2D() ;
-int			SetDrawScreen_ID3D11RenderTargetView(			const(void)*pID3D11RenderTargetView, const(void)*pID3D11DepthStencilView  = NULL  ) ;
-int			RefreshDxLibDirect3DSetting() ;
-int			SetUseDirect3D11SwapEffect(						int SwapEffect /* DX_SWAP_EFFECT_DISCARD 等 */ ) ;
-
-int			SetUseMediaFoundationFlag(						int Flag ) ;
-
-
-int			ColorKaiseki(				const(void)*PixelData, COLORDATA* ColorData ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-int			BmpBltToMask(					HBITMAP Bmp, int BmpPointX, int BmpPointY, int MaskHandle ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-HANDLE		AddFontFile(					const(TCHAR)*FontFilePath                            ) ;
-HANDLE		AddFontFileWithStrLen(			const(TCHAR)*FontFilePath, size_t FontFilePathLength ) ;
-HANDLE		AddFontFileFromMem(				const(void)*FontFileImage, int FontFileImageSize ) ;
-int			RemoveFontFile(					HANDLE FontHandle ) ;
-
-
-int			CreateFontDataFile(				const(TCHAR)*SaveFilePath,                            const(TCHAR)*FontName,                        int Size, int BitDepth /* DX_FONTIMAGE_BIT_1等 */ , int Thick, int Italic  = FALSE  , int CharSet  = -1  , const(TCHAR)*SaveCharaList  = NULL                                   ) ;
-int			CreateFontDataFileWithStrLen(	const(TCHAR)*SaveFilePath, size_t SaveFilePathLength, const(TCHAR)*FontName, size_t FontNameLength, int Size, int BitDepth /* DX_FONTIMAGE_BIT_1等 */ , int Thick, int Italic  = FALSE  , int CharSet  = -1  , const(TCHAR)*SaveCharaList  = NULL  , size_t SaveCharaListLength  = 0  ) ;
-
-
-
-
-
-
-
-
-
-
-
-HBITMAP		CreateDIBGraph(								const(TCHAR)*FileName,                                                                                                                                                               int ReverseFlag,                          COLORDATA *SrcColor ) ;
-HBITMAP		CreateDIBGraphWithStrLen(					const(TCHAR)*FileName, size_t FileNameLength,                                                                                                                                        int ReverseFlag,                          COLORDATA *SrcColor ) ;
-HBITMAP		CreateDIBGraphToMem(						const(BITMAPINFO)*BmpInfo, const(void)*GraphData,                                                                                                                                    int ReverseFlag,                          COLORDATA *SrcColor ) ;
-int			CreateDIBGraph_plus_Alpha(					const(TCHAR)*FileName,                        HBITMAP *RGBBmp, HBITMAP *AlphaBmp,                                                                                                    int ReverseFlag  = FALSE  , COLORDATA *SrcColor  = NULL  ) ;
-int			CreateDIBGraph_plus_AlphaWithStrLen(		const(TCHAR)*FileName, size_t FileNameLength, HBITMAP *RGBBmp, HBITMAP *AlphaBmp,                                                                                                    int ReverseFlag  = FALSE  , COLORDATA *SrcColor  = NULL  ) ;
-HBITMAP		CreateDIBGraphVer2(							const(TCHAR)*FileName,                        const(void)*MemImage, int MemImageSize,                                             int ImageType,                                     int ReverseFlag,                          COLORDATA *SrcColor ) ;
-HBITMAP		CreateDIBGraphVer2WithStrLen(				const(TCHAR)*FileName, size_t FileNameLength, const(void)*MemImage, int MemImageSize,                                             int ImageType,                                     int ReverseFlag,                          COLORDATA *SrcColor ) ;
-int			CreateDIBGraphVer2_plus_Alpha(				const(TCHAR)*FileName,                        const(void)*MemImage, int MemImageSize, const(void)*AlphaImage, int AlphaImageSize, int ImageType, HBITMAP *RGBBmp, HBITMAP *AlphaBmp, int ReverseFlag,                          COLORDATA *SrcColor ) ;
-int			CreateDIBGraphVer2_plus_AlphaWithStrLen(	const(TCHAR)*FileName, size_t FileNameLength, const(void)*MemImage, int MemImageSize, const(void)*AlphaImage, int AlphaImageSize, int ImageType, HBITMAP *RGBBmp, HBITMAP *AlphaBmp, int ReverseFlag,                          COLORDATA *SrcColor ) ;
-int			ConvBitmapToGraphImage(						const(BITMAPINFO)*BmpInfo, void *GraphData, BASEIMAGE *GraphImage, int CopyFlag ) ;
-int			ConvGraphImageToBitmap(						const(BASEIMAGE)*GraphImage, BITMAPINFO *BmpInfo, void **GraphData, int CopyFlag, int FullColorConv  = TRUE  ) ;
-
-
-int			UpdateLayerdWindowForBaseImage(                       const(BASEIMAGE)*BaseImage ) ;
-int			UpdateLayerdWindowForBaseImageRect(                   const(BASEIMAGE)*BaseImage, int x1, int y1, int x2, int y2 ) ;
-int			UpdateLayerdWindowForPremultipliedAlphaBaseImage(     const(BASEIMAGE)*BaseImage ) ;
-int			UpdateLayerdWindowForPremultipliedAlphaBaseImageRect( const(BASEIMAGE)*BaseImage, int x1, int y1, int x2, int y2 ) ;
-
-
-int			GetDesktopScreenBaseImage( int x1, int y1, int x2, int y2, BASEIMAGE *BaseImage, int DestX, int DestY ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-int			UpdateLayerdWindowForSoftImage(                       int SIHandle ) ;
-int			UpdateLayerdWindowForSoftImageRect(                   int SIHandle, int x1, int y1, int x2, int y2 ) ;
-int			UpdateLayerdWindowForPremultipliedAlphaSoftImage(     int SIHandle ) ;
-int			UpdateLayerdWindowForPremultipliedAlphaSoftImageRect( int SIHandle, int x1, int y1, int x2, int y2 ) ;
-
-
-int			GetDesktopScreenSoftImage( int x1, int y1, int x2, int y2, int SIHandle,         int DestX, int DestY ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int			LoadSoundMemByResource(              const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int BufferNum  = 1  ) ;
-int			LoadSoundMemByResourceWithStrLen(    const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int BufferNum  = 1  ) ;
-
-
-int			SetUseSoftwareMixingSoundFlag(       int Flag ) ;
-int			SetEnableXAudioFlag(                 int Flag ) ;
-int			SetEnableWASAPIFlag(                 int Flag, int IsExclusive  = TRUE  , int DevicePeriod  = -1  , int SamplePerSec  = 44100  ) ;
-int			SetEnableASIOFlag(                   int Flag, int BufferSize  = -1  , int SamplePerSec  = 44100  ) ;
-int			SetUseASIODriverIndex(               int Index ) ;
-int			SetEnableMMEwaveOutFlag(             int Flag, int BufferSamples  = -1  , int SamplePerSec  = 44100  ) ;
-
-
-const(void)*	GetDSoundObj() ;	/* 戻り値を IDirectSound * にキャストして下さい */
-
-
-int			LoadMusicMemByResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
-int			LoadMusicMemByResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
-int			PlayMusicByResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int PlayType ) ;
-int			PlayMusicByResourceWithStrLen(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int PlayType ) ;
-
-
-
-
-
-
-
-
-
-
-
-
-
+extern(C++, "DxLib")
+{
 
 
 
@@ -6062,6 +5609,490 @@ float		Live2D_Model_GetCanvasHeight(						int Live2DModelHandle ) ;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern(C++, "DxLib")
+{
+
+
+
+
+
+
+
+int				GetResourceInfo(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            void **DataPointerP , size_t *DataSizeP ) ;
+int				GetResourceInfoWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, void **DataPointerP , size_t *DataSizeP ) ;
+const(TCHAR)*	GetResourceIDString(		int ResourceID ) ;
+
+
+int			GetWindowCRect(					RECT *RectBuf ) ;
+int			GetWindowClientRect(			RECT *RectBuf ) ;
+int			GetWindowFrameRect(				RECT *RectBuf ) ;
+int			GetWindowActiveFlag() ;
+int			GetWindowMinSizeFlag() ;
+int			GetWindowMaxSizeFlag() ;
+int			GetActiveFlag() ;
+HWND		GetMainWindowHandle() ;
+int			GetWindowModeFlag() ;
+int			GetDefaultState(				int *SizeX, int *SizeY, int *ColorBitDepth, int *RefreshRate  = NULL  , int *LeftTopX  = NULL  , int *LeftTopY  = NULL  , int *PixelSizeX  = NULL  , int *PixelSizeY  = NULL  , int *XDpi  = NULL  , int *YDpi  = NULL  ) ;
+int			GetMonitorDpi(					int *XDpi, int *YDpi, int MonitorIndex  = -1  ) ;
+int			GetNoActiveState(				int ResetFlag  = TRUE  ) ;
+int			GetMouseDispFlag() ;
+int			GetAlwaysRunFlag() ;
+int			GetSystemInfo_(					int *DxLibVer , int *DirectXVer , int *WindowsVer ) ;
+int			GetPcInfo(						TCHAR *OSString , TCHAR *DirectXString , TCHAR *CPUString , int *CPUSpeed /* 単位MHz */ , double *FreeMemorySize /* 単位MByte */ , double *TotalMemorySize , TCHAR *VideoDriverFileName , TCHAR *VideoDriverString , double *FreeVideoMemorySize /* 単位MByte */ , double *TotalVideoMemorySize ) ;
+int			GetWindowOSVersion() ;
+int			GetUseMMXFlag() ;
+int			GetUseSSEFlag() ;
+int			GetUseSSE2Flag() ;
+int			GetWindowCloseFlag() ;
+HINSTANCE	GetTaskInstance() ;
+int			GetUseWindowRgnFlag() ;
+int			GetWindowSizeChangeEnableFlag(	int *FitScreen  = NULL  ) ;
+double		GetWindowSizeExtendRate(		double *ExRateX  = NULL  , double *ExRateY  = NULL  ) ;
+int			GetWindowSize(					int *Width, int *Height ) ;
+int			GetWindowEdgeWidth(				int *LeftWidth, int *RightWidth, int *TopWidth, int *BottomWidth ) ;
+int			GetWindowPosition(				int *x, int *y ) ;
+int			GetWindowUserCloseFlag(			int StateResetFlag  = FALSE  ) ;
+int			CheckWindowMaximizeButtonInput(	int StateResetFlag  = TRUE  ) ;
+int			GetNotDrawFlag() ;
+int			GetPaintMessageFlag() ;
+int			GetValidHiPerformanceCounter() ;
+TCHAR		GetInputSystemChar(				int DeleteFlag ) ;
+
+
+int			ChangeWindowMode(						int Flag ) ;
+int			SetUseCharSet(							int CharSet /* = DX_CHARSET_SHFTJIS 等 */ ) ;
+int			LoadPauseGraph(							const(TCHAR)*FileName                        ) ;
+int			LoadPauseGraphWithStrLen(				const(TCHAR)*FileName, size_t FileNameLength ) ;
+int			LoadPauseGraphFromMem(					const(void)*MemImage , int MemImageSize ) ;
+int			SetActiveStateChangeCallBackFunction(	int  function( int ActiveState , void *UserData )CallBackFunction , void *UserData ) ;
+int			SetWindowText(							const(TCHAR)*WindowText                          ) ;
+int			SetWindowTextDX(						const(TCHAR)*WindowText                          ) ;
+int			SetWindowTextWithStrLen(				const(TCHAR)*WindowText, size_t WindowTextLength ) ;
+int			SetMainWindowText(						const(TCHAR)*WindowText                          ) ;
+int			SetMainWindowTextWithStrLen(			const(TCHAR)*WindowText, size_t WindowTextLength ) ;
+int			SetMainWindowClassName(					const(TCHAR)*ClassName                         ) ;
+int			SetMainWindowClassNameWithStrLen(		const(TCHAR)*ClassName, size_t ClassNameLength ) ;
+int			SetWindowIconID(						int ID ) ;
+int			SetWindowIconHandle(					HICON Icon ) ;
+int			SetUseASyncChangeWindowModeFunction(	int Flag , void  function( void * )CallBackFunction , void *Data ) ;
+int			SetShutdownCallbackFunction(			void  function( void * )CallbackFunction, void *Data, const(TCHAR)*Message ) ;
+int			SetWindowStyleMode(						int Mode ) ;
+int			SetWindowZOrder(						int ZType /* = DX_WIN_ZTYPE_TOP 等 */ , int WindowActivateFlag  = TRUE  ) ;
+int			SetWindowSizeChangeEnableFlag(			int Flag, int FitScreen  = TRUE  ) ;
+int			SetWindowSizeExtendRate(				double ExRateX, double ExRateY  = -1.0  ) ;
+int			SetWindowSize(							int Width, int Height ) ;
+int			SetWindowMaxSize(						int MaxWidth, int MaxHeight ) ;
+int			SetWindowMinSize(						int MinWidth, int MinHeight ) ;
+int			SetWindowPosition(						int x, int y ) ;
+int			SetSysCommandOffFlag(					int Flag , const(TCHAR)*HookDllPath  = NULL  ) ;
+int			SetSysCommandOffFlagWithStrLen(			int Flag , const(TCHAR)*HookDllPath  = NULL  , size_t HookDllPathLength  = 0  ) ;
+int			SetWindowMaximizeButtonBehavior(		int BehaviorType ) ;
+int			SetHookWinProc(							WNDPROC WinProc ) ;
+int			SetUseHookWinProcReturnValue(			int UseFlag ) ;
+int			SetDoubleStartValidFlag(				int Flag ) ;
+int			CheckDoubleStart() ;
+int			AddMessageTakeOverWindow(				HWND Window ) ;
+int			SubMessageTakeOverWindow(				HWND Window ) ;
+
+int			SetWindowInitPosition(					int x , int y ) ;
+int			SetNotWinFlag(							int Flag ) ;
+int			SetNotDrawFlag(							int Flag ) ;
+int			SetNotSoundFlag(						int Flag ) ;
+int			SetNotInputFlag(						int Flag ) ;
+int			SetDialogBoxHandle(						HWND WindowHandle ) ;
+int			SetWindowVisibleFlag(					int Flag ) ;
+int			SetWindowMinimizeFlag(					int Flag ) ;
+int			SetWindowUserCloseEnableFlag(			int Flag ) ;
+int			SetUseBorderlessWindowFlag(				int Flag ) ;
+int			SetDxLibEndPostQuitMessageFlag(			int Flag ) ;
+int			SetUserWindow(							HWND WindowHandle ) ;
+int			SetUserChildWindow(						HWND WindowHandle ) ;
+int			SetUserWindowMessageProcessDXLibFlag(	int Flag ) ;
+int			SetUseFPUPreserveFlag(					int Flag ) ;
+int			SetValidMousePointerWindowOutClientAreaMoveFlag( int Flag ) ;
+int			SetUseBackBufferTransColorFlag(			int Flag ) ;
+int			SetUseUpdateLayerdWindowFlag(			int Flag ) ;
+int			SetUseMouseEventTransparentWindowFlag(	int Flag ) ;
+int			SetResourceModule(						HMODULE ResourceModule ) ;
+int			SetUseDxLibWM_PAINTProcess(				int Flag ) ;
+int			SetWindows10_WM_CHAR_CancelTime(		int MilliSecond ) ;
+int			SetUseWindows10_WM_CHAR_CancelTime(		int Flag ) ;
+
+
+int			SetDragFileValidFlag(		int Flag ) ;
+int			DragFileInfoClear() ;
+int			GetDragFilePath(			TCHAR *FilePathBuffer, int FilePathBufferBytes  = -1  ) ;
+int			GetDragFileNum() ;
+
+
+HRGN		CreateRgnFromGraph(			int Width , int Height , const(void)*MaskData , int Pitch , int Byte ) ;
+HRGN		CreateRgnFromBaseImage(		BASEIMAGE *BaseImage, int TransColorR, int TransColorG, int TransColorB ) ;
+int			SetWindowRgnGraph(			 const(TCHAR)*FileName                        ) ;
+int			SetWindowRgnGraphWithStrLen( const(TCHAR)*FileName, size_t FileNameLength ) ;
+int			UpdateTransColorWindowRgn() ;
+
+
+int			SetupToolBar(				const(TCHAR)*BitmapName,                          int DivNum, int ResourceID  = -1  ) ;
+int			SetupToolBarWithStrLen(		const(TCHAR)*BitmapName, size_t BitmapNameLength, int DivNum, int ResourceID  = -1  ) ;
+int			AddToolBarButton(			int Type /* TOOLBUTTON_TYPE_NORMAL 等 */ , int State /* TOOLBUTTON_STATE_ENABLE 等 */ , int ImageIndex, int ID ) ;
+int			AddToolBarSep() ;
+int			GetToolBarButtonState(		int ID ) ;
+int			SetToolBarButtonState(		int ID , int State /* TOOLBUTTON_STATE_ENABLE 等 */ ) ;
+int			DeleteAllToolBarButton() ;
+
+
+int			SetUseMenuFlag(						int Flag ) ;
+int			SetUseKeyAccelFlag(					int Flag ) ;
+
+int			AddKeyAccel(						const(TCHAR)*ItemName,                        int ItemID , int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
+int			AddKeyAccelWithStrLen(				const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID , int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
+int			AddKeyAccel_Name(					const(TCHAR)*ItemName,                        int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
+int			AddKeyAccel_NameWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int KeyCode , int CtrlFlag , int AltFlag , int ShiftFlag ) ;
+int			AddKeyAccel_ID(						int ItemID, int KeyCode, int CtrlFlag, int AltFlag, int ShiftFlag ) ;
+int			ClearKeyAccel() ;
+
+int			AddMenuItem(						int AddType /* MENUITEM_ADD_CHILD等 */ , const(TCHAR)*ItemName,                        int ItemID, int SeparatorFlag, const(TCHAR)*NewItemName  = NULL  ,                                                int NewItemID  = -1  ) ;
+int			AddMenuItemWithStrLen(				int AddType /* MENUITEM_ADD_CHILD等 */ , const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int SeparatorFlag, const(TCHAR)*NewItemName  = NULL  , size_t NewItemNameLength  = 0  , int NewItemID  = -1  ) ;
+int			DeleteMenuItem(						const(TCHAR)*ItemName,                        int ItemID ) ;
+int			DeleteMenuItemWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID ) ;
+int			CheckMenuItemSelect(				const(TCHAR)*ItemName,                        int ItemID ) ;
+int			CheckMenuItemSelectWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID ) ;
+int			SetMenuItemEnable(					const(TCHAR)*ItemName,                        int ItemID, int EnableFlag ) ;
+int			SetMenuItemEnableWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int EnableFlag ) ;
+int			SetMenuItemMark(					const(TCHAR)*ItemName,                        int ItemID, int Mark ) ;
+int			SetMenuItemMarkWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength, int ItemID, int Mark ) ;
+int			CheckMenuItemSelectAll() ;
+
+int			AddMenuItem_Name(					const(TCHAR)*ParentItemName,                              const(TCHAR)*NewItemName                           ) ;
+int			AddMenuItem_NameWithStrLen(			const(TCHAR)*ParentItemName, size_t ParentItemNameLength, const(TCHAR)*NewItemName, size_t NewItemNameLength ) ;
+int			AddMenuLine_Name(					const(TCHAR)*ParentItemName ) ;
+int			AddMenuLine_NameWithStrLen(			const(TCHAR)*ParentItemName, size_t ParentItemNameLength ) ;
+int			InsertMenuItem_Name(				const(TCHAR)*ItemName,                        const(TCHAR)*NewItemName                           ) ;
+int			InsertMenuItem_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, const(TCHAR)*NewItemName, size_t NewItemNameLength ) ;
+int			InsertMenuLine_Name(				const(TCHAR)*ItemName                        ) ;
+int			InsertMenuLine_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength ) ;
+int			DeleteMenuItem_Name(				const(TCHAR)*ItemName                        ) ;
+int			DeleteMenuItem_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength ) ;
+int			CheckMenuItemSelect_Name(			const(TCHAR)*ItemName                        ) ;
+int			CheckMenuItemSelect_NameWithStrLen(	const(TCHAR)*ItemName, size_t ItemNameLength ) ;
+int			SetMenuItemEnable_Name(				const(TCHAR)*ItemName,                        int EnableFlag ) ;
+int			SetMenuItemEnable_NameWithStrLen(	const(TCHAR)*ItemName, size_t ItemNameLength, int EnableFlag ) ;
+int			SetMenuItemMark_Name(				const(TCHAR)*ItemName,                        int Mark ) ;
+int			SetMenuItemMark_NameWithStrLen(		const(TCHAR)*ItemName, size_t ItemNameLength, int Mark ) ;
+
+int			AddMenuItem_ID(						int ParentItemID, const(TCHAR)*NewItemName,                           int NewItemID  = -1  ) ;
+int			AddMenuItem_IDWithStrLen(			int ParentItemID, const(TCHAR)*NewItemName, size_t NewItemNameLength, int NewItemID  = -1  ) ;
+int			AddMenuLine_ID(						int ParentItemID ) ;
+int			InsertMenuItem_ID(					int ItemID, int NewItemID ) ;
+int			InsertMenuLine_ID(					int ItemID, int NewItemID ) ;
+int			DeleteMenuItem_ID(					int ItemID ) ;
+int			CheckMenuItemSelect_ID(				int ItemID ) ;
+int			SetMenuItemEnable_ID(				int ItemID, int EnableFlag ) ;
+int			SetMenuItemMark_ID(					int ItemID, int Mark ) ;
+
+int			DeleteMenuItemAll() ;
+int			ClearMenuItemSelect() ;
+int			GetMenuItemID(						const(TCHAR)*ItemName                        ) ;
+int			GetMenuItemIDDX(					const(TCHAR)*ItemName                        ) ;
+int			GetMenuItemIDWithStrLen(			const(TCHAR)*ItemName, size_t ItemNameLength ) ;
+int			GetMenuItemName(					int ItemID, TCHAR *NameBuffer ) ;
+int 		LoadMenuResource(					int MenuResourceID ) ;
+int			SetMenuItemSelectCallBackFunction(	void  function( const(TCHAR)*ItemName, int ItemID )CallBackFunction ) ;
+
+int			SetWindowMenu(						int MenuID, int  function( WORD ID )MenuProc ) ;
+int			SetDisplayMenuFlag(					int Flag ) ;
+int			GetDisplayMenuFlag() ;
+int			GetUseMenuFlag() ;
+int			SetAutoMenuDisplayFlag(				int Flag ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int			GetWinSockLastError() ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int			SetUseTSFFlag( int UseFlag ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int			SetKeyExclusiveCooperativeLevelFlag(	int Flag ) ;
+int			SetKeyboardNotDirectInputFlag(			int Flag ) ;
+int			SetUseDirectInputFlag(					int UseFlag ) ;
+int			SetDirectInputMouseMode(				int Mode ) ;
+int			SetUseXInputFlag(						int Flag ) ;
+int			SetUseXboxControllerDirectInputFlag(	int Flag ) ;
+int			GetJoypadGUID(							int PadIndex, GUID *GuidInstanceBuffer, GUID *GuidProductBuffer  = NULL  ) ;
+int			GetJoypadName(							int InputType, TCHAR *InstanceNameBuffer, TCHAR *ProductNameBuffer ) ;
+int			ConvertKeyCodeToVirtualKey(				int KeyCode ) ;
+int			ConvertVirtualKeyToKeyCode(				int VirtualKey ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int			LoadGraphToResource(				int ResourceID ) ;
+int			LoadDivGraphToResource(				int ResourceID, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
+int			LoadDivGraphFToResource(			int ResourceID, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
+int			LoadGraphToResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
+int			LoadGraphToResourceWithStrLen(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
+int			LoadDivGraphToResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
+int			LoadDivGraphToResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
+int			LoadDivGraphFToResource(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
+int			LoadDivGraphFToResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
+int			LoadGraphToResource2(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
+int			LoadGraphToResourceWithStrLen2(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
+int			LoadDivGraphToResource2(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
+int			LoadDivGraphToResourceWithStrLen2(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, int   XSize, int   YSize, int *HandleArray ) ;
+int			LoadDivGraphFToResource2(			const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
+int			LoadDivGraphFToResourceWithStrLen2(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int AllNum, int XNum, int YNum, float XSize, float YSize, int *HandleArray ) ;
+int			CreateGraphFromID3D11Texture2D(     const(void)*pID3D11Texture2D ) ;
+
+
+const(void)*	GetGraphID3D11Texture2D(		int GrHandle ) ;
+const(void)*	GetGraphID3D11RenderTargetView(	int GrHandle ) ;
+const(void)*	GetGraphID3D11DepthStencilView(	int GrHandle ) ;
+
+
+int			BltBackScreenToWindow(			HWND Window, int ClientX, int ClientY ) ;
+int			BltRectBackScreenToWindow(		HWND Window, RECT BackScreenRect, RECT WindowClientRect ) ;
+int			SetScreenFlipTargetWindow(		HWND TargetWindow, double ScaleX  = 1.0  , double ScaleY  = 1.0  ) ;
+int			GetDesktopScreenGraph(			int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
+void *		GetDesktopScreenGraphMemImage(	int x1, int y1, int x2, int y2, int *Width, int *Height, int *Stride, int ColorBitDepth  = 32  ) ;
+int			GetOtherWindowGraph(			HWND Window, int x1, int y1, int x2, int y2, int GrHandle, int DestX  = 0  , int DestY  = 0  ) ;
+
+
+int			SetMultiThreadFlag(								int Flag ) ;
+int			SetUseDirectDrawDeviceIndex(					int Index ) ;
+int			SetAeroDisableFlag(								int Flag ) ;
+int			SetUseDirect3D9Ex(								int Flag ) ;
+int			SetUseDirect3D11(								int Flag ) ;
+int			SetUseDirect3D11MinFeatureLevel(				int Level /* DX_DIRECT3D_11_FEATURE_LEVEL_10_0 など */ ) ;
+int			SetUseDirect3D11WARPDriver(						int Flag ) ;
+int			SetUseDirect3DVersion(							int Version /* DX_DIRECT3D_9 など */ ) ;
+int			GetUseDirect3DVersion() ;
+int			GetUseDirect3D11FeatureLevel() ;
+int			SetUseDirect3D11AdapterIndex(					int Index ) ;
+int			SetUseDirect3D11AdapterLUID(					LUID *UseLUID ) ;
+LUID		GetUseDirect3D11AdapterLUID() ;
+int			SetUseDirect3D11BGRASupport(					int Flag ) ;
+int			GetUseDirect3D11BGRASupport() ;
+int			SetUseDirectDrawFlag(							int Flag ) ;
+int			SetUseGDIFlag(									int Flag ) ;
+int			GetUseGDIFlag() ;
+int			SetDDrawUseGuid(								const(GUID)*Guid ) ;
+const(void)*	GetUseDDrawObj() ;
+const(GUID)*	GetDirectDrawDeviceGUID(						int Number ) ;
+int			GetDirectDrawDeviceDescription(					int Number, char *StringBuffer ) ;
+int			GetDirectDrawDeviceNum() ;
+const(void)*	GetUseDirect3DDevice9() ;
+const(void)*	GetUseDirect3D9BackBufferSurface() ;
+const(void)*	GetUseDirect3D11Device() ;
+const(void)*	GetUseDirect3D11DeviceContext() ;
+const(void)*	GetUseDirect3D11BackBufferTexture2D() ;
+const(void)*	GetUseDirect3D11BackBufferRenderTargetView() ;
+const(void)*	GetUseDirect3D11DepthStencilTexture2D() ;
+int			SetDrawScreen_ID3D11RenderTargetView(			const(void)*pID3D11RenderTargetView, const(void)*pID3D11DepthStencilView  = NULL  ) ;
+int			RefreshDxLibDirect3DSetting() ;
+int			SetUseDirect3D11SwapEffect(						int SwapEffect /* DX_SWAP_EFFECT_DISCARD 等 */ ) ;
+
+int			SetUseMediaFoundationFlag(						int Flag ) ;
+
+
+int			ColorKaiseki(				const(void)*PixelData, COLORDATA* ColorData ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+int			BmpBltToMask(					HBITMAP Bmp, int BmpPointX, int BmpPointY, int MaskHandle ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HANDLE		AddFontFile(					const(TCHAR)*FontFilePath                            ) ;
+HANDLE		AddFontFileWithStrLen(			const(TCHAR)*FontFilePath, size_t FontFilePathLength ) ;
+HANDLE		AddFontFileFromMem(				const(void)*FontFileImage, int FontFileImageSize ) ;
+int			RemoveFontFile(					HANDLE FontHandle ) ;
+
+
+int			CreateFontDataFile(				const(TCHAR)*SaveFilePath,                            const(TCHAR)*FontName,                        int Size, int BitDepth /* DX_FONTIMAGE_BIT_1等 */ , int Thick, int Italic  = FALSE  , int CharSet  = -1  , const(TCHAR)*SaveCharaList  = NULL                                   ) ;
+int			CreateFontDataFileWithStrLen(	const(TCHAR)*SaveFilePath, size_t SaveFilePathLength, const(TCHAR)*FontName, size_t FontNameLength, int Size, int BitDepth /* DX_FONTIMAGE_BIT_1等 */ , int Thick, int Italic  = FALSE  , int CharSet  = -1  , const(TCHAR)*SaveCharaList  = NULL  , size_t SaveCharaListLength  = 0  ) ;
+
+
+
+
+
+
+
+
+
+
+
+HBITMAP		CreateDIBGraph(								const(TCHAR)*FileName,                                                                                                                                                               int ReverseFlag,                          COLORDATA *SrcColor ) ;
+HBITMAP		CreateDIBGraphWithStrLen(					const(TCHAR)*FileName, size_t FileNameLength,                                                                                                                                        int ReverseFlag,                          COLORDATA *SrcColor ) ;
+HBITMAP		CreateDIBGraphToMem(						const(BITMAPINFO)*BmpInfo, const(void)*GraphData,                                                                                                                                    int ReverseFlag,                          COLORDATA *SrcColor ) ;
+int			CreateDIBGraph_plus_Alpha(					const(TCHAR)*FileName,                        HBITMAP *RGBBmp, HBITMAP *AlphaBmp,                                                                                                    int ReverseFlag  = FALSE  , COLORDATA *SrcColor  = NULL  ) ;
+int			CreateDIBGraph_plus_AlphaWithStrLen(		const(TCHAR)*FileName, size_t FileNameLength, HBITMAP *RGBBmp, HBITMAP *AlphaBmp,                                                                                                    int ReverseFlag  = FALSE  , COLORDATA *SrcColor  = NULL  ) ;
+HBITMAP		CreateDIBGraphVer2(							const(TCHAR)*FileName,                        const(void)*MemImage, int MemImageSize,                                             int ImageType,                                     int ReverseFlag,                          COLORDATA *SrcColor ) ;
+HBITMAP		CreateDIBGraphVer2WithStrLen(				const(TCHAR)*FileName, size_t FileNameLength, const(void)*MemImage, int MemImageSize,                                             int ImageType,                                     int ReverseFlag,                          COLORDATA *SrcColor ) ;
+int			CreateDIBGraphVer2_plus_Alpha(				const(TCHAR)*FileName,                        const(void)*MemImage, int MemImageSize, const(void)*AlphaImage, int AlphaImageSize, int ImageType, HBITMAP *RGBBmp, HBITMAP *AlphaBmp, int ReverseFlag,                          COLORDATA *SrcColor ) ;
+int			CreateDIBGraphVer2_plus_AlphaWithStrLen(	const(TCHAR)*FileName, size_t FileNameLength, const(void)*MemImage, int MemImageSize, const(void)*AlphaImage, int AlphaImageSize, int ImageType, HBITMAP *RGBBmp, HBITMAP *AlphaBmp, int ReverseFlag,                          COLORDATA *SrcColor ) ;
+int			ConvBitmapToGraphImage(						const(BITMAPINFO)*BmpInfo, void *GraphData, BASEIMAGE *GraphImage, int CopyFlag ) ;
+int			ConvGraphImageToBitmap(						const(BASEIMAGE)*GraphImage, BITMAPINFO *BmpInfo, void **GraphData, int CopyFlag, int FullColorConv  = TRUE  ) ;
+
+
+int			UpdateLayerdWindowForBaseImage(                       const(BASEIMAGE)*BaseImage ) ;
+int			UpdateLayerdWindowForBaseImageRect(                   const(BASEIMAGE)*BaseImage, int x1, int y1, int x2, int y2 ) ;
+int			UpdateLayerdWindowForPremultipliedAlphaBaseImage(     const(BASEIMAGE)*BaseImage ) ;
+int			UpdateLayerdWindowForPremultipliedAlphaBaseImageRect( const(BASEIMAGE)*BaseImage, int x1, int y1, int x2, int y2 ) ;
+
+
+int			GetDesktopScreenBaseImage( int x1, int y1, int x2, int y2, BASEIMAGE *BaseImage, int DestX, int DestY ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+int			UpdateLayerdWindowForSoftImage(                       int SIHandle ) ;
+int			UpdateLayerdWindowForSoftImageRect(                   int SIHandle, int x1, int y1, int x2, int y2 ) ;
+int			UpdateLayerdWindowForPremultipliedAlphaSoftImage(     int SIHandle ) ;
+int			UpdateLayerdWindowForPremultipliedAlphaSoftImageRect( int SIHandle, int x1, int y1, int x2, int y2 ) ;
+
+
+int			GetDesktopScreenSoftImage( int x1, int y1, int x2, int y2, int SIHandle,         int DestX, int DestY ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int			LoadSoundMemByResource(              const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int BufferNum  = 1  ) ;
+int			LoadSoundMemByResourceWithStrLen(    const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int BufferNum  = 1  ) ;
+
+
+int			SetUseSoftwareMixingSoundFlag(       int Flag ) ;
+int			SetEnableXAudioFlag(                 int Flag ) ;
+int			SetEnableWASAPIFlag(                 int Flag, int IsExclusive  = TRUE  , int DevicePeriod  = -1  , int SamplePerSec  = 44100  ) ;
+int			SetEnableASIOFlag(                   int Flag, int BufferSize  = -1  , int SamplePerSec  = 44100  ) ;
+int			SetUseASIODriverIndex(               int Index ) ;
+int			SetEnableMMEwaveOutFlag(             int Flag, int BufferSamples  = -1  , int SamplePerSec  = 44100  ) ;
+
+
+const(void)*	GetDSoundObj() ;	/* 戻り値を IDirectSound * にキャストして下さい */
+
+
+int			LoadMusicMemByResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType                            ) ;
+int			LoadMusicMemByResourceWithStrLen(	const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength ) ;
+int			PlayMusicByResource(				const(TCHAR)*ResourceName,                            const(TCHAR)*ResourceType,                            int PlayType ) ;
+int			PlayMusicByResourceWithStrLen(		const(TCHAR)*ResourceName, size_t ResourceNameLength, const(TCHAR)*ResourceType, size_t ResourceTypeLength, int PlayType ) ;
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 

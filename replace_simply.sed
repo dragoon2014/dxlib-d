@@ -29,7 +29,7 @@ s/extern[ \t]\+"C"/version(all)/g
 # extern (TODO: cooperation with namespace)
 s/extern[ \t]\+//g
 # namespace
-s/namespace[ \t]\+\([a-zA-Z_][a-zA-Z_0-9]*\)/extern(C++, \1)/g
+s/namespace[ \t]\+\([a-zA-Z_][a-zA-Z_0-9]*\)/extern(C++, "\1")/g
 # ref
 s/\([(,]\)\([ \ta-zA-Z_0-9]\+\)\&/\1 ref \2/g
 
