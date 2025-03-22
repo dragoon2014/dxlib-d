@@ -3,7 +3,7 @@ hdrs=(DxLib DxFunctionWin)
 
 isUtf8=0
 
-for arg in $*; do
+for arg in "$@"; do
     case $arg in
         -u)
             # skip cp932 to utf8 conversion
@@ -17,17 +17,23 @@ done
 for ((i=0; i<${#hdrs[@]}; i++)){
     src="${hdrs[i]}.h"
     dst="${hdrs[i],,}.d"
-    echo converting $src to $dst ...
+    echo converting "$src" to "$dst"...
 
-    echo "module ${hdrs[i],,};" > $dst
+    echo "module ${hdrs[i],,};" > "$dst"
     if [ $i -eq 0 ]; then
-        cat template_winapi.d >> $dst
+        cat template_winapi.d >> "$dst"
     fi
 
-    ([[ $isUtf8 -eq 1 ]] && cat $src || iconv -f cp932 -t utf-8 $src) \
+    if [[ $isUtf8 -eq 1 ]]; then
+        utf8ed_cat='cat'
+    else
+        utf8ed_cat='iconv -f cp932 -t utf-8'
+    fi
+
+    $utf8ed_cat "$src" \
         | tr -d '\r' \
         | sed -f replace_simply.sed \
-        | bash convert_typedef.sh >> $dst
+        | bash convert_typedef.sh >> "$dst"
 }
 
 sed -i -z 's@}\n*extern[^\n]*\n{@//__!_injection_DxFunctionWin__\n@' dxlib.d
