@@ -29,9 +29,11 @@ convert_to_D(){
         | bash convert_typedef.sh
 }
 
-echo "module dxlib;" > "$dst"
-cat template_winapi.d >> "$dst"
-convert_to_D DxLib.h >> $dst
-echo "version(Windows){" >> $dst
-convert_to_D DxFunctionWin.h >> $dst
-echo "}" >> $dst
+{
+    echo "module dxlib;"
+    cat template_winapi.d
+    convert_to_D DxLib.h
+    echo "version(Windows){"
+    convert_to_D DxFunctionWin.h
+    echo "}"
+} > "$dst"
